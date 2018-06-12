@@ -58,7 +58,7 @@ class Tree extends React.Component <{}, {}>{
     };
 
     public render() {
-        return (<ul className="left tree" ref={this.setRef} tabIndex={0}/>);
+        return (<ul className="tree" ref={this.setRef} tabIndex={0}/>);
     }
 }
 

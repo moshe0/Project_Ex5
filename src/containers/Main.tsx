@@ -1,7 +1,7 @@
 import * as React from 'react'
 import '../App.css';
-import Tree from './Tree';
 import UserInteraction from './UserInteraction';
+import TreeInteraction from "./TreeInteraction";
 
 
 class Main extends React.Component<{}, {}> {
@@ -12,7 +12,7 @@ class Main extends React.Component<{}, {}> {
     public render() {
         return (
             <div className="MainClass">
-                <Tree/>
+                <TreeInteraction/>
                 <UserInteraction/>
             </div>
         );

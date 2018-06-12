@@ -17,7 +17,7 @@ html, body, .bodyClass, #root {
 
 .Header {
   border-bottom: 1px solid black;
-  background: #057505;
+  background: #075E54;
   color: white;
   font-size: 25px;
   height: 50px;
@@ -30,7 +30,7 @@ html, body, .bodyClass, #root {
 .left {
   width: 25%;
   border-right: 1px solid black;
-  background-color: #9bba9d;
+  background-color: #84a386;
 }
 
 .right {
@@ -62,7 +62,7 @@ html, body, .bodyClass, #root {
   margin: 5px 5px 5px 0px;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
-  background-color: #057505;
+  background-color: #078278;
   font-size: 25px;
   min-width: 100px;
   color: white;
@@ -81,7 +81,7 @@ html, body, .bodyClass, #root {
 }
 
 .buttonActive:hover {
-  background-color: #046204;
+  background-color: #075E54;
 }
 /*************************************************************************************/
 
@@ -190,8 +190,16 @@ div.LoginImage:active{
     margin: 0;
     list-style: none;
     outline: none;
-    height: 97.1%;
+    height: 88%;
     overflow-y: scroll;
+}
+
+.ActionTree{
+    height: 9.3%;
+    vertical-align: bottom;
+    padding-left: 78px;
+    padding-right: 78px;
+    background-color: #617e63;
 }
 
 .group{
@@ -204,7 +212,7 @@ div.LoginImage:active{
 
 .inFocus{
     border: 1px solid black;
-    background: #059505;
+    background: darkgreen;
 }
 
 .hidden{
@@ -215,4 +223,58 @@ li{
     user-select: none;
     color: white;
 }
+/***********************************************/
+
+
+
+/**************   Tree Actions   ********************/
+
+.TreeActionsImages{
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    float: right;
+    cursor: pointer;
+}
+
+.EditImage {
+    background: url("Images/Edit/Edit.png");
+}
+
+div.EditImage:hover{
+    background: url("Images/Edit/EditH.png");
+}
+
+div.EditImage:active{
+    background: url("Images/Edit/EditP.png");
+}
+
+.AddImage {
+    background: url("Images/Add/Add.png");
+}
+
+div.AddImage:hover{
+    background: url("Images/Add/AddH.png");
+}
+
+div.AddImage:active{
+    background: url("Images/Add/AddP.png");
+}
+
+.DelImage {
+    background: url("Images/Del/Del.png");
+}
+
+div.DelImage:hover{
+    background: url("Images/Del/DelH.png");
+}
+
+div.DelImage:active{
+    background: url("Images/Del/DelP.png");
+}
+
+
+
+
+
 /***********************************************/

@@ -28,7 +28,7 @@ export class InitTree {
             let image = document.createElement("img");
             image.style.margin = "5px";
             image.style.verticalAlign = "middle";
-            image.src = "/TreeImages/singleUser.png";
+            image.src = "/TreeImages/Users/singleUser.png";
 
             let img = $(image);
             let span = $("<span>");
@@ -60,7 +60,7 @@ export class InitTree {
             }
 
             if (data[i].getItems().length > 0) {
-                img.attr("src", "/TreeImages/multipleUsers.png");
+                img.attr("src", "/TreeImages/Users/multipleUsers.png");
 
                 for (let i = 0; i < data[i].getItems().length; i++)
                     this._Load(data[i].getItems(), li, indentation + 25);
