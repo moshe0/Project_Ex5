@@ -33,7 +33,7 @@ class Header extends React.Component<{},IHeaderState>  {
             userName = this.state.currentUser.Name;
         return (
             <div className="Header">
-                <Link to='/LogOut'><div className="LoginImage" onClick={this.LoginImage}/></Link>
+                <Link to='/LogOut'><div title="Log out" className="LoginImage" onClick={this.LoginImage}/></Link>
                 <div className="LoginStatus">{userName}</div>
             </div>
         );

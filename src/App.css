@@ -197,8 +197,8 @@ div.LoginImage:active{
 .ActionTree{
     height: 9.3%;
     vertical-align: bottom;
-    padding-left: 76px;
-    padding-right: 76px;
+    padding-left: 1px;
+    padding-right: 60px;
     background-color: #617e63;
 }
 
@@ -273,7 +273,17 @@ div.DelImage:active{
     background: url("Images/Del/DelP.png");
 }
 
+.FlatteningImage {
+    background: url("Images/Flattening/Flattening.png");
+}
 
+div.FlatteningImage:hover{
+    background: url("Images/Flattening/FlatteningH.png");
+}
+
+div.FlatteningImage:active{
+    background: url("Images/Flattening/FlatteningP.png");
+}
 
 
 
