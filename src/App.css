@@ -190,15 +190,15 @@ div.LoginImage:active{
     margin: 0;
     list-style: none;
     outline: none;
-    height: 88%;
+    height: 87.9%;
     overflow-y: scroll;
 }
 
 .ActionTree{
     height: 9.3%;
     vertical-align: bottom;
-    padding-left: 78px;
-    padding-right: 78px;
+    padding-left: 76px;
+    padding-right: 76px;
     background-color: #617e63;
 }
 
