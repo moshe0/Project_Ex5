@@ -1,7 +1,7 @@
 import {DB} from "../dataBase/DB";
-import {User} from "../Model/User";
-import {Group} from "../Model/Group";
-import Imember from "../Model/Imember";
+import {User} from "shared-models/User";
+import {Group} from "shared-models/Group";
+import Imember from "shared-models/Imember";
 
 
 interface IStateStore {

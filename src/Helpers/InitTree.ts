@@ -1,6 +1,6 @@
 import StateStore from "../state/StateStore";
 import * as $ from "jquery";
-import Imember from "../Model/Imember";
+import Imember from "shared-models/Imember";
 
 
 export class InitTree {

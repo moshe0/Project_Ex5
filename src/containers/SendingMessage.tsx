@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Message} from "../Model/Message";
+import {Message} from "shared-models/Message";
 import StateStore from "../state/StateStore";
 import * as moment from 'moment'
 import {DB} from "../dataBase/DB";

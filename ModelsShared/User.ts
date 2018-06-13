@@ -1,7 +1,7 @@
 import Imember from "./Imember";
 
 export class User implements Imember{
-    constructor(public Name : string, public Password : string, public Age : string)
+    constructor(public Name : string, public Password : string, public Age : Number)
     {}
 
     getName(){

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {User} from "../Model/User";
+import {User} from "shared-models/User";
 import StateStore from "../state/StateStore";
 
 import {Link} from "react-router-dom";

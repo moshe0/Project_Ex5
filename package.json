@@ -6,6 +6,7 @@
     "@types/jquery": "^3.3.2",
     "@types/react-router-dom": "^4.2.7",
     "@types/reactstrap": "^5.0.27",
+    "shared-models": "file:ModelsShared",
     "jquery": "^3.3.1",
     "moment": "^2.22.1",
     "react": "^16.3.2",
