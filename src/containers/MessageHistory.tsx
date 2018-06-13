@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Message} from "shared-models/Message";
+import {Message} from "./../Models/Message";
 import {DB} from "../dataBase/DB";
 import StateStore from "../state/StateStore";
 

@@ -1,27 +1,27 @@
-import * as moment from 'moment'
-import {Group} from "shared-models/Group";
-import {User} from "shared-models/User";
-import {Message} from "shared-models/Message";
-import Imember from "shared-models/Imember";
+import * as moment from 'moment';
+import {Group} from './../Models/Group';
+import {User} from './../Models/User';
+import {Message} from './../Models/Message';
+import Imember from './../Models/Imember';
 
 export class DB {
 
     static Users = [
-        new User('Moshe', '11', 28 ),
-        new User('Raz', '22', 27 ),
-        new User('Yosef', '33', 23 ),
-        new User('Tommy', '33', 23 ),
-        new User('Udi', '33', 23 ),
-        new User('Ori', '33', 23 ),
-        new User('Roni', '33', 23 ),
+        new User(1,'Moshe', '11', 11 ),
+        new User(2,'Raz', '22', 22 ),
+        new User(3,'Yosef', '33', 33 ),
+        new User(4,'Tommy', '44,', 44 ),
+        new User(5,'Udi', '55', 55 ),
+        new User(6,'Ori', '66', 66 ),
+        new User(7,'Roni', '77', 77 ),
     ];
 
     static Messages = [
-        new Message("שלום",'Moshe','Yosef', moment().format('h:mm:ss')),
-        new Message("מה עניינים?",'Yosef','Moshe', moment().format('h:mm:ss')),
-        new Message("מצוין", 'Moshe','Yosef', moment().format('h:mm:ss')),
-        new Message("יופי, להתראות",'Yosef','Moshe', moment().format('h:mm:ss')),
-        new Message("יופי, להתראות",'Yosef','Friends', moment().format('h:mm:ss')),
+        new Message(1,"שלום",'Moshe','Yosef', moment().format('h:mm:ss')),
+        new Message(2,"מה עניינים?",'Yosef','Moshe', moment().format('h:mm:ss')),
+        new Message(3,"מצוין", 'Moshe','Yosef', moment().format('h:mm:ss')),
+        new Message(4,"יופי, להתראות",'Yosef','Moshe', moment().format('h:mm:ss')),
+        new Message(5,"יופי, להתראות",'Yosef','Friends', moment().format('h:mm:ss')),
     ];
 
 
@@ -30,12 +30,12 @@ export class DB {
 
     static initGroups() :  Group[]{
         let tmpGroup = [
-            new Group('Friends',
+            new Group(1,'Friends',
                       [
-                            new Group('Best Friends',
+                            new Group(2,'Best Friends',
                                       [
                                             new Group(
-                                                'Good Friends',
+                                                3,'Good Friends',
                                                 [DB.Users[3],
                                                           DB.Users[4]]),
                                           DB.Users[5],
