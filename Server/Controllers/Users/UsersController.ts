@@ -1,13 +1,21 @@
 import * as services from './../../Services';
 
-export async function ff(req, res){
-    const hello = await services.UsersService.ff(req.params.id);
-
-    res.json(hello);
+export async function GetUsers(req, res){
+    const result = await services.UsersService.GetUsers();
+    res.json(result);
 }
 
 export async function AddUser(req, res){
-    const hello = await services.UsersService.ff(req.params.id);
+    const result = await services.UsersService.AddUser(req.body);
+    res.json(result);
+}
 
-    res.json(hello);
+export async function DeleteUser(req, res){
+    const result = await services.UsersService.DeleteUser(req.params.id);
+    res.json(result);
+}
+
+export async function UpdateUser(req, res){
+    const result = await services.UsersService.UpdateUser(req.params.id);
+    res.json(result);
 }

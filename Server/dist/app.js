@@ -1,12 +1,11 @@
-import * as express from 'express';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
 // import * as routes from './Routes';
-
 const app = express();
 app.use(express.json());
-
-
 // app.use('/user', routes.Users);
 // app.use('/group', routes.GroupsRouter);
 // app.use('/member', routes.Members);
-
-export default app;
+exports.default = app;
+//# sourceMappingURL=app.js.map

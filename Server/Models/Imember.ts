@@ -3,4 +3,4 @@ export default interface Imember {
     getType(): string
     getItems(): Imember[]
     // getInfoString(): string
-}
+};

@@ -1,42 +1,43 @@
-export function GetUsers(){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function GetUsers() {
     return new Promise((resolve) => {
         const result = _GetUsers();
         resolve(result);
     });
 }
-function _GetUsers(){
+exports.GetUsers = GetUsers;
+function _GetUsers() {
     return 'GetUsers';
 }
-
-
-export function AddUser(user: any){
+function AddUser(user) {
     return new Promise((resolve) => {
         const result = _AddUser(user);
         resolve(result);
     });
 }
-function _AddUser(user: any){
+exports.AddUser = AddUser;
+function _AddUser(user) {
     return 'AddUser';
 }
-
-
-export function DeleteUser(id: number){
+function DeleteUser(id) {
     return new Promise((resolve) => {
         const result = _DeleteUser(id);
         resolve(result);
     });
 }
-function _DeleteUser(id: number){
+exports.DeleteUser = DeleteUser;
+function _DeleteUser(id) {
     return 'DeleteUser';
 }
-
-
-export function UpdateUser(id: number){
+function UpdateUser(id) {
     return new Promise((resolve) => {
         const result = _UpdateUser(id);
         resolve(result);
     });
 }
-function _UpdateUser(id: number){
+exports.UpdateUser = UpdateUser;
+function _UpdateUser(id) {
     return 'UpdateUser';
 }
+//# sourceMappingURL=UsersService.js.map

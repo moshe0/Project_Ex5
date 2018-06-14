@@ -3,4 +3,4 @@ import app from './app';
 
 const server = http.createServer(app);
 
-server.listen(4000);
+server.listen(4000, ()=>console.log("listening on port 4000"));
