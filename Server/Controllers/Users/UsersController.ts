@@ -1,9 +1,6 @@
 import * as services from './../../Services';
 
-export async function GetUsers(req, res){
-    const result = await services.UsersService.GetUsers();
-    res.json(result);
-}
+
 
 export async function AddUser(req, res){
     const result = await services.UsersService.AddUser(req.body);
@@ -17,5 +14,15 @@ export async function DeleteUser(req, res){
 
 export async function UpdateUser(req, res){
     const result = await services.UsersService.UpdateUser(req.params.id);
+    res.json(result);
+}
+
+export async function GetUsers(req, res){
+    const result = await services.UsersService.GetUsers();
+    res.json(result);
+}
+
+export async function GetSpecificUser(req, res){
+    const result = await services.UsersService.GetSpecificUser(req.body);
     res.json(result);
 }

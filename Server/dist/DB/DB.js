@@ -1,18 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-class DB {
-    static staticConstructor() {
-        DB.Users = DB.readFile("Users");
-        DB.Groups = DB.readFile("Groups");
-        DB.Messages = DB.readFile("Messages");
+class DataBase {
+    constructor() {
+        this.Users = this.readFile("Users");
+        this.Groups = this.readFile("Groups");
+        this.Messages = this.readFile("Messages");
     }
-    ;
-    static readFile(fileName) {
+    readFile(fileName) {
         const data = fs.readFileSync(`${__dirname}\\${fileName}Data.json`).toString();
         return JSON.parse(data);
     }
-    static writeUsersFile(fileName, data, res) {
+    writeUsersFile(fileName, data, res) {
         switch (fileName) {
             case 'Users':
                 fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Users), function (err) {
@@ -41,5 +40,5 @@ class DB {
         }
     }
 }
-exports.DB = DB;
+exports.DB = new DataBase();
 //# sourceMappingURL=DB.js.map

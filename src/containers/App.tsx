@@ -2,10 +2,10 @@ import Header from './Header';
 import Main from './Main';
 import * as React from 'react'
 import StateStore from "../state/StateStore";
-import {DB} from "../dataBase/DB";
 import LogIn from "../components/LogIn";
 import LogOut from "../components/LogOut";
 import {BrowserRouter, Redirect, Route} from 'react-router-dom';
+import {appService} from "../AppService";
 
 
 
@@ -30,13 +30,15 @@ class App extends React.Component<{}, IAppUserState>{
         });
     }
 
-    Login = () => {
-        const LoginUser = DB.GetSpecificUser(this.state.userLogin, this.state.passwordLogin);
-        if(!!LoginUser) {
+    Login = async () => {
+        const LoginUser = await appService.GetSpecificUser(this.state.userLogin, this.state.passwordLogin);
+        const Data = await appService.GetData();
+
+        if(!!LoginUser && !!Data) {
             StateStore.FirstUse = 1;
             StateStore.getInstance().setMany({
                 'currentUser' : LoginUser,
-                'Data' : DB.GetData(),
+                'Data' : Data,
                 'LogOutState': false,
                 'LogInState': false
             });
@@ -92,7 +94,6 @@ class App extends React.Component<{}, IAppUserState>{
 
     public render() {
         const currentUser = !!StateStore.getInstance().get('currentUser');
-        console.log(">>>>>>>>>>>>>>", currentUser);
         return (
             <BrowserRouter>
                 <div className="bodyClass">

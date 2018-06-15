@@ -5,7 +5,7 @@ import UserRouter from "./UsersRouter";
 const GroupsRouter = express.Router();
 
 
-UserRouter.get('/GetGroups/', Controllers.GroupsController.GetGroups);
+GroupsRouter.get('/GetGroups', Controllers.GroupsController.GetGroups);
 
 GroupsRouter.post('/AddGroup', Controllers.GroupsController.AddGroup);
 

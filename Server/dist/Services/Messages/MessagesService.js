@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const DB_1 = require("../../DB/DB");
 function GetMessages() {
     return new Promise((resolve) => {
         const result = _GetMessages();
@@ -8,7 +9,7 @@ function GetMessages() {
 }
 exports.GetMessages = GetMessages;
 function _GetMessages() {
-    return 'GetMessages';
+    return DB_1.DB.Messages;
 }
 function AddMessage(massage) {
     return new Promise((resolve) => {

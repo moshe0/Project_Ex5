@@ -9,13 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const services = require("./../../Services");
-function GetUsers(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.UsersService.GetUsers();
-        res.json(result);
-    });
-}
-exports.GetUsers = GetUsers;
 function AddUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield services.UsersService.AddUser(req.body);
@@ -37,4 +30,18 @@ function UpdateUser(req, res) {
     });
 }
 exports.UpdateUser = UpdateUser;
+function GetUsers(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield services.UsersService.GetUsers();
+        res.json(result);
+    });
+}
+exports.GetUsers = GetUsers;
+function GetSpecificUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield services.UsersService.GetSpecificUser(req.body);
+        res.json(result);
+    });
+}
+exports.GetSpecificUser = GetSpecificUser;
 //# sourceMappingURL=UsersController.js.map

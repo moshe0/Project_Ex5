@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const Controllers = require("../Controllers");
 const MessagesRouter = express.Router();
-MessagesRouter.get('/GetMessages/', Controllers.MessagesController.GetMessages);
-MessagesRouter.post('/AddMessage/', Controllers.MessagesController.AddMessage);
+MessagesRouter.get('/GetMessages', Controllers.MessagesController.GetMessages);
+MessagesRouter.post('/AddMessage', Controllers.MessagesController.AddMessage);
 exports.default = MessagesRouter;
 //# sourceMappingURL=MessagesRouter.js.map

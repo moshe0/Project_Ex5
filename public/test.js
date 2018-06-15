@@ -1,3 +1,5 @@
+import {DB} from "../Server/DB/DB";
+
 class User {
     constructor(Id, Name, Age, Password) {
         this._Id = Id;
@@ -20,18 +22,11 @@ var Users = [
 
 
 
-console.log(GetNextId(Users));
+console.log(GetNextId({'Moshe', 11}));
 
 
-function GetNextId(obj){
-    let result = obj.map(item => item.Id);
-    result.sort();
-
-    let res=1;
-    for(i=0 ; i<result.length ; i++, res++) {
-        if (result[i] !== res) {
-            break;
-        }
-    }
-    return res;
+function GetNextId(user){
+    console.log(user.userName, user.userPassword);
+    let aa = DB.Users.map(item => item.Name === user.name);
+    return aa;
 }

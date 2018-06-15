@@ -1,3 +1,6 @@
+import {DB} from "../../DB/DB";
+
+
 export function GetMessages(){
     return new Promise((resolve) => {
         const result = _GetMessages();
@@ -5,7 +8,7 @@ export function GetMessages(){
     });
 }
 function _GetMessages(){
-    return 'GetMessages';
+    return DB.Messages;
 }
 
 export function AddMessage(massage: any){

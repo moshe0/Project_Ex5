@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const DB_1 = require("../../DB/DB");
 function GetGroups() {
     return new Promise((resolve) => {
         const result = _GetGroups();
@@ -8,7 +9,7 @@ function GetGroups() {
 }
 exports.GetGroups = GetGroups;
 function _GetGroups() {
-    return 'GetGroups';
+    return DB_1.DB.Groups;
 }
 function AddGroup(user) {
     return new Promise((resolve) => {

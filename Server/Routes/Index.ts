@@ -1,7 +1,7 @@
-import Users from './UsersRouter';
-import Groups from './GroupsRouter';
-import Messages from './MessagesRouter';
+import UsersRouter from './UsersRouter';
+import GroupsRouter from './GroupsRouter';
+import MessagesRouter from './MessagesRouter';
 
 
-export {Users, Groups, Messages};
+export {UsersRouter, GroupsRouter, MessagesRouter};
 

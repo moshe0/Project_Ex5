@@ -1,3 +1,7 @@
+import * as Controllers from "../../Controllers";
+import UserRouter from "../../Routes/UsersRouter";
+import {DB} from "../../DB/DB";
+
 export function GetGroups(){
     return new Promise((resolve) => {
         const result = _GetGroups();
@@ -5,7 +9,7 @@ export function GetGroups(){
     });
 }
 function _GetGroups(){
-    return 'GetGroups';
+    return DB.Groups;
 }
 
 

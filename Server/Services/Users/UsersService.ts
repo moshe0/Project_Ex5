@@ -1,12 +1,5 @@
-export function GetUsers(){
-    return new Promise((resolve) => {
-        const result = _GetUsers();
-        resolve(result);
-    });
-}
-function _GetUsers(){
-    return 'GetUsers';
-}
+import {DB} from "../../DB/DB";
+
 
 
 export function AddUser(user: any){
@@ -40,3 +33,26 @@ export function UpdateUser(id: number){
 function _UpdateUser(id: number){
     return 'UpdateUser';
 }
+
+
+export function GetUsers(){
+    return new Promise((resolve) => {
+        const result = _GetUsers();
+        resolve(result);
+    });
+}
+function _GetUsers(){
+    return DB.Users;
+}
+
+
+export function GetSpecificUser(user){
+    return new Promise((resolve) => {
+        const result = _GetSpecificUser(user);
+        resolve(result);
+    });
+}
+function _GetSpecificUser(user){
+    return DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+}
+
