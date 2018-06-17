@@ -26,7 +26,10 @@ class App extends React.Component<{}, IAppUserState>{
         };
 
         StateStore.getInstance().subscribe(()=>{
-            this.forceUpdate();
+            let userLogin = this.state.userLogin;
+            this.setState({
+                userLogin: userLogin
+            });
         });
     }
 

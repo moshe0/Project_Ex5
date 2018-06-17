@@ -1,8 +1,9 @@
 import * as moment from 'moment';
-import {Group} from './../Models/Group';
-import {User} from './../Models/User';
 import {Message} from './../Models/Message';
-import Imember from './../Models/Imember';
+import Imember from "../../Server/Models/Imember";
+import {Group} from "../Models/Group";
+import {User} from "../Models/User";
+import {GetType} from "../Helpers/MainHelpers";
 
 export class DB {
 
@@ -28,47 +29,47 @@ export class DB {
 
     static Groups = DB.initGroups();
 
-    static initGroups() :  Group[]{
+    static initGroups() :  any[]{
         let tmpGroup = [
             new Group(1,'Friends',
-                      [
-                            new Group(2,'Best Friends',
-                                      [
-                                            new Group(
-                                                3,'Good Friends',
-                                                [DB.Users[3],
-                                                          DB.Users[4]]),
-                                          DB.Users[5],
-                                          DB.Users[6]]),
-                            DB.Users[0],
-                            DB.Users[1],
-                            DB.Users[2]])
-                ];
+                [
+                    new Group(2,'Best Friends',
+                        [
+                            new Group(
+                                3,'Good Friends',
+                                [DB.Users[3],
+                                    DB.Users[4]]),
+                            DB.Users[5],
+                            DB.Users[6]]),
+                    DB.Users[0],
+                    DB.Users[1],
+                    DB.Users[2]])
+        ];
         return tmpGroup;
     }
 
     static Data = DB.initData();
 
     static initData(){
-        let data : Imember[] = [];
+        let data : any[] = [];
         data = data.concat(DB.GetGroups());
         data = data.concat(DB.GetUsers());
         return data;
     }
 
 
-    static GetMessages(sender :Imember, reciver : Imember) : Message[]{
+    static GetMessages(sender , reciver) : Message[]{
         let resMessages : Message[] = [];
-        if(reciver.getType() === 'group'){
+        if(GetType(reciver) === 'group'){
             for (let i: number = 0; i < DB.Messages.length; i++) {
-                if (DB.Messages[i].Receiving === reciver.getName())
+                if (DB.Messages[i].Receiving === reciver.Name)
                     resMessages.push(DB.Messages[i]);
             }
         }
         else {
             for (let i: number = 0; i < DB.Messages.length; i++) {
-                if (DB.Messages[i].SendingUser === sender.getName() && DB.Messages[i].Receiving === reciver.getName() ||
-                    DB.Messages[i].SendingUser === reciver.getName() && DB.Messages[i].Receiving === sender.getName())
+                if (DB.Messages[i].SendingUser === sender.Name && DB.Messages[i].Receiving === reciver.Name ||
+                    DB.Messages[i].SendingUser === reciver.Name && DB.Messages[i].Receiving === sender.Name)
                     resMessages.push(DB.Messages[i]);
             }
         }

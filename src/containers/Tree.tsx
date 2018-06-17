@@ -13,14 +13,8 @@ class Tree extends React.Component <{}, {}>{
     }
 
 
-    //After first render
-    componentDidMount() {
-        console.log('componentDidMount');
-
-    }
-
     shouldComponentUpdate(){
-        console.log('componentDidUpdate');
+        console.log('Tree componentDidUpdate');
         console.log('Data: ', StateStore.getInstance().get('Data'));
         console.log('currentUser: ', StateStore.getInstance().get('currentUser'));
         console.log('LogInState: ' ,StateStore.getInstance().get('LogInState'));

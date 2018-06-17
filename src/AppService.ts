@@ -1,6 +1,5 @@
 import {GetGroups, GetSpecificUser, GetUsers} from "./ServiceApi";
 import {User} from "./Models/User";
-import Imember from "./Models/Imember";
 
 export class AppService {
     async GetSpecificUser(userName : string, userPassword : string) {
@@ -23,7 +22,7 @@ export class AppService {
             const ObjUsers = await GetUsers();
             console.log(ObjUsers);
 
-            let data : Imember[] = [];
+            let data : any[] = [];
             data = data.concat(ObjGroups);
             data = data.concat(ObjUsers);
 

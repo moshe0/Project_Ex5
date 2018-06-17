@@ -3,7 +3,7 @@ import {Message} from "./../Models/Message";
 import StateStore from "../state/StateStore";
 import * as moment from 'moment'
 import {DB} from "../dataBase/DB";
-import {GetNextId} from "../Helpers/GetNextId";
+import {MainHelpers} from "../Helpers/MainHelpers";
 
 
 
@@ -32,7 +32,7 @@ class SendingMessage extends React.Component <{}, ISendingMessageState> {
     private handleButtonClick = () => {
         if(this.state.inputVal.trim() === '')
             return;
-        let m = new Message(GetNextId(DB.Messages) ,this.state.inputVal, this.stateStore.get('currentUser').getName(), this.stateStore.get('Reciver').getName(), moment().format('h:mm:ss'));
+        let m = new Message(MainHelpers(DB.Messages) ,this.state.inputVal, this.stateStore.get('currentUser').Name, this.stateStore.get('Reciver').Name, moment().format('h:mm:ss'));
         this.setState({inputVal: ''});
         DB.SetMessage(m);
         this.stateStore.onStoreChanged();

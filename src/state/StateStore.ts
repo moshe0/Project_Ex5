@@ -1,9 +1,3 @@
-import {DB} from "../dataBase/DB";
-import {User} from "./../Models/User";
-import {Group} from "./../Models/Group";
-import Imember from "./../Models/Imember";
-
-
 interface IStateStore {
     state: {};
     set(key: string, val: any): void
@@ -18,20 +12,20 @@ export class StateStore implements IStateStore {
     static instance: IStateStore;
     static FirstUse = 1;
 
-    Users : User[];
-    Groups : Group[];
-    Data : Imember[];
-    currentUser : User;
-    Reciver : Imember;
-    HoldReciver : Imember;
+    Users : any[];
+    Groups : any[];
+    Data : any[];
+    currentUser : {Name};
+    Reciver : any;
+    HoldReciver : any;
     LogOutState : boolean;
     LogInState : boolean;
     TreeState : any;
 
     state: {} = {
-        Users : DB.GetUsers(),
-        Groups : DB.GetGroups(),
-        Data : DB.GetData(),
+        Users : null,
+        Groups : null,
+        Data : null,
         currentUser : null,
         Reciver : null,
         HoldReciver : null,

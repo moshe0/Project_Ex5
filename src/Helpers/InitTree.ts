@@ -1,13 +1,13 @@
 import StateStore from "../state/StateStore";
 import * as $ from "jquery";
-import Imember from "./../Models/Imember";
+import {GetItems, GetType} from "./MainHelpers";
 
 
 export class InitTree {
-    data : Imember[];
+    data : any;
     static NeedIgnore = false;
 
-    constructor(public element : any, public Alldata : Imember[]){
+    constructor(public element : any, public Alldata : any[]){
         this.data = Alldata;
         let ul = document.querySelector("ul");
         if (ul)
@@ -22,7 +22,7 @@ export class InitTree {
     }
 
 
-    private _Load(data : Imember[], parent : any, indentation : number) {
+    private _Load(data : any[], parent : any, indentation : number) {
 
         for (let i = 0; i < data.length; i++) {
             let image = document.createElement("img");
@@ -39,9 +39,9 @@ export class InitTree {
             let li = $(liTmp);
 
             span.appendTo(li);
-            let dd = data[i].getType();
-            li.addClass(dd);
-            li.append(data[i].getName());
+            let type = GetType(data[i]);
+            li.addClass(type);
+            li.append(data[i].Name);
             li.appendTo(this.element);
             li.on('dblclick', () => {
                 this.dblclick();
@@ -59,11 +59,11 @@ export class InitTree {
                     parent.data('items').push(li);
             }
 
-            if (data[i].getItems().length > 0) {
+            if (GetItems(data[i]).length > 0) {
                 img.attr("src", "/TreeImages/Users/multipleUsers.png");
 
-                for (let i = 0; i < data[i].getItems().length; i++)
-                    this._Load(data[i].getItems(), li, indentation + 25);
+                for (let i = 0; i < GetItems(data[i]).length; i++)
+                    this._Load(GetItems(data[i]), li, indentation + 25);
             }
         }
     }
@@ -116,13 +116,13 @@ export class InitTree {
         StateStore.getInstance().set('Reciver', Reciver);
     }
 
-    static getMemberFromPathArr(pathArr : string[], data : Imember[], index : number) : Imember | null{
+    static getMemberFromPathArr(pathArr : string[], data : any[], index : number) : any | null{
         for(let i=0 ; i<data.length ; i++){
-            if(pathArr[index] === data[i].getName()){
+            if(pathArr[index] === data[i].Name){
                 if(pathArr.length-1 === index)
                     return data[i];
                 else {
-                    return InitTree.getMemberFromPathArr(pathArr, data[i].getItems(), ++index);
+                    return InitTree.getMemberFromPathArr(pathArr, GetItems(data[i]), ++index);
                 }
             }
         }
@@ -131,9 +131,9 @@ export class InitTree {
 
 
     static clearFocusClass() {
-         let itemFocused = $('.inFocus');
-         itemFocused.removeClass('inFocus');
-     }
+        let itemFocused = $('.inFocus');
+        itemFocused.removeClass('inFocus');
+    }
 
     keyup = (e: any) => {
         e.stopPropagation();

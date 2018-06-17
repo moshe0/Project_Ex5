@@ -2,6 +2,7 @@ import * as React from "react";
 import {Message} from "./../Models/Message";
 import {DB} from "../dataBase/DB";
 import StateStore from "../state/StateStore";
+import {GetType} from "../Helpers/MainHelpers";
 
 
 interface IMessageState{
@@ -73,30 +74,30 @@ class MessageHistory extends React.Component <{}, IMessageState>{
             const itemClassName = this.stateStore.get('currentUser').Name === item.SendingUser? 'MineMessage MessageHistory' : 'OtherMessage MessageHistory';
             let Reciver = '';
             if(!! this.stateStore.get('Reciver'))
-                Reciver = this.stateStore.get('Reciver').getType();
+                Reciver = GetType(this.stateStore.get('Reciver'));
             else if(!! this.stateStore.get('HoldReciver'))
-                Reciver = this.stateStore.get('HoldReciver').getType();
+                Reciver = GetType(this.stateStore.get('HoldReciver'));
 
             if(Reciver === 'group') {
                 return (
                     <div className={'message'} key={idx}>
-                    <div className={itemClassName}>
-                        <div className={'MessageUserSending'}>{item.SendingUser}</div>
-                        {item.Content}
-                        <br/>
-                        <div className={'MessageTime'}>{item.TimeSent}</div>
-                    </div>
+                        <div className={itemClassName}>
+                            <div className={'MessageUserSending'}>{item.SendingUser}</div>
+                            {item.Content}
+                            <br/>
+                            <div className={'MessageTime'}>{item.TimeSent}</div>
+                        </div>
                     </div>
                 );
             }
             else{
                 return (
                     <div className={'message'} key={idx}>
-                    <div className={itemClassName}>
-                        {item.Content}
-                        <br/>
-                        <div className={'MessageTime'}>{item.TimeSent}</div>
-                    </div>
+                        <div className={itemClassName}>
+                            {item.Content}
+                            <br/>
+                            <div className={'MessageTime'}>{item.TimeSent}</div>
+                        </div>
                     </div>
                 );
             }

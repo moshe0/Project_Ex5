@@ -1,11 +1,10 @@
 import * as React from "react";
-import {User} from "./../Models/User";
 import StateStore from "../state/StateStore";
 
 import {Link} from "react-router-dom";
 
 interface IHeaderState {
-    currentUser : User
+    currentUser : any
 }
 
 class Header extends React.Component<{},IHeaderState>  {
