@@ -7,6 +7,7 @@ import LogOut from "../components/LogOut";
 import {BrowserRouter, Redirect, Route} from 'react-router-dom';
 import {appService} from "../AppService";
 import Add from "../components/Add";
+import {InitTree} from "../Helpers/InitTree";
 
 
 
@@ -78,7 +79,19 @@ class App extends React.Component<{}, IAppUserState>{
     };
 
     ShowAdd = () =>{
-        const addTypes = ['New user', 'New group', 'Add user to existing group', 'Add new group to group'];
+        const type  = InitTree.TreeSelectedType();
+        let addTypes = [];
+
+        if(type === 'Group without groups')
+            addTypes = ['New user', 'New group', 'Add existing user to marked group', 'Add new group to marked group'];
+        else if(type === 'Group with groups')
+            addTypes = ['New user', 'New group', 'Add new group to marked group'];
+        else
+            addTypes = ['New user', 'New group'];
+
+
+
+
         return <Add AddType={addTypes}/>
     };
 

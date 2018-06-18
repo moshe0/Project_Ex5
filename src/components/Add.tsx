@@ -99,7 +99,7 @@ class Add extends React.Component<IAddProps, IAddState> {
     };
 
 
-    public ff(){
+    public AddInteraction(){
         if(this.state.selectedType === 'New user'){
             return (
                 <div>
@@ -128,7 +128,7 @@ class Add extends React.Component<IAddProps, IAddState> {
                 </div>
             );
         }
-        else if(this.state.selectedType === 'Add user to existing group'){
+        else if(this.state.selectedType === 'Add existing user to marked group'){
             return (
                 <div>
                     <p style={styles.p}>
@@ -156,13 +156,13 @@ class Add extends React.Component<IAddProps, IAddState> {
             return (<option key={idx} value={item}>{item}</option>);
         });
 
-        const divSelected = this.ff();
+        const divSelected = this.AddInteraction();
 
         return (
             <Modal style={styles.modal}>
                 <div style={styles.divOfType}>
                     <span style={styles.p}>
-                        <label style={styles.input} htmlFor="AddType">Type of add:</label>
+                        <label style={styles.input} htmlFor="AddType">Type of add</label>
                         <select style={styles.input} name="AddType" onChange={this.SelectedChangedHandler}>
                             {AddTypes}
                         </select>

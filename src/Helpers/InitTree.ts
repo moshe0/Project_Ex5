@@ -30,8 +30,6 @@ export class InitTree {
             image.style.verticalAlign = "middle";
             image.src = "/TreeImages/Users/singleUser.png";
 
-
-
             let liTmp = document.createElement("li");
             liTmp.style.textIndent = indentation + "px";
             let li = $(liTmp);
@@ -103,11 +101,16 @@ export class InitTree {
         InitTree.clearFocusClass();
 
         $(this).addClass('inFocus');
-        console.log('click');
         InitTree.inFocusChanged();
+        console.log(InitTree.TreeSelectedType());
     }
 
     static inFocusChanged(){
+        let Receiver = InitTree.getItemFromPath(InitTree.getPathOfFocusedItem(), StateStore.getInstance().get('Data'), 0);
+        StateStore.getInstance().set('Receiver', Receiver);
+    }
+
+    static getPathOfFocusedItem() : string[]{
         let itemFocused = $('.inFocus');
 
         let pathArr : string[] = [];
@@ -115,21 +118,44 @@ export class InitTree {
             pathArr.splice(0, 0, itemFocused.text());
             itemFocused = itemFocused.data('parent');
         }
-        let Receiver = InitTree.getMemberFromPathArr(pathArr, StateStore.getInstance().get('Data'), 0);
-        StateStore.getInstance().set('Receiver', Receiver);
+
+        return pathArr;
     }
 
-    static getMemberFromPathArr(pathArr : string[], data : any[], index : number) : any | null{
+    static getItemFromPath(pathArr : string[], data : any[], index : number) : any | null{
         for(let i=0 ; i<data.length ; i++){
             if(pathArr[index] === data[i].Name){
                 if(pathArr.length-1 === index)
                     return data[i];
                 else {
-                    return InitTree.getMemberFromPathArr(pathArr, GetItems(data[i]), ++index);
+                    return InitTree.getItemFromPath(pathArr, GetItems(data[i]), ++index);
                 }
             }
         }
         return null;
+    }
+
+    static TreeSelectedType() : string {
+        let itemFocused = $('.inFocus');
+        if(!itemFocused)
+            return 'Not selected';
+
+        if(itemFocused.hasClass('group')){
+
+            let children = $(itemFocused).data('items');
+            if(!!children){
+                for(let item of children){
+                    if(item.hasClass('group'))
+                        return 'Group with groups';
+                }
+            }
+            return 'Group without groups';
+        }
+        else{
+            if(itemFocused.data('parent') === '')
+                return 'User without parent';
+            return 'User in a parent';
+        }
     }
 
 
@@ -202,7 +228,7 @@ export class InitTree {
         if(current.length === 0)
             return;
         else {
-            let arrLi =  this.element.find('li:not(.hidden)');
+            let arrLi = this.element.find('li:not(.hidden)');
 
             for(let index = arrLi.length-1 ; index >= 0 ; index--){
                 if($(arrLi[index]).text() === current.text() &&
