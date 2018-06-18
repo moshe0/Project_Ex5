@@ -1,6 +1,6 @@
 import {DB} from "../../DB/DB";
 import {Message} from "../../../src/Models/Message";
-import {GetType} from "../../Helpers/MainHelpers";
+import {GetNextId, GetType} from "../../Helpers/MainHelpers";
 
 
 export function GetMessages(sender, receiver){
@@ -36,6 +36,7 @@ export function AddMessage(massage: any){
 function _AddMessage(message: any){
     if(! DB.Messages)
         DB.Messages = [];
+    message.Id = GetNextId(DB.Messages);
     DB.Messages.push(message);
     DB.writeFile('Messages');
 }

@@ -30,16 +30,21 @@ export class InitTree {
             image.style.verticalAlign = "middle";
             image.src = "/TreeImages/Users/singleUser.png";
 
-            let img = $(image);
-            let span = $("<span>");
-            img.appendTo(span);
+
 
             let liTmp = document.createElement("li");
             liTmp.style.textIndent = indentation + "px";
             let li = $(liTmp);
 
+            let span = $("<span>");
             span.appendTo(li);
             let type = GetType(data[i]);
+            if(type === 'group')
+                image.src = "/TreeImages/Users/multipleUsers.png";
+
+            let img = $(image);
+            img.appendTo(span);
+
             li.addClass(type);
             li.append(data[i].Name);
             li.appendTo(this.element);
@@ -60,8 +65,6 @@ export class InitTree {
             }
 
             if (GetItems(data[i]).length > 0) {
-                img.attr("src", "/TreeImages/Users/multipleUsers.png");
-
                 for (let i = 0; i < GetItems(data[i]).length; i++)
                     this._Load(GetItems(data[i]), li, indentation + 25);
             }

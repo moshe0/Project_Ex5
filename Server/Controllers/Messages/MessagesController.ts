@@ -1,7 +1,6 @@
 import * as services from './../../Services';
 
 export async function GetMessages(req, res){
-    console.log(req.body);
     const result = await services.MessagesService.GetMessages(req.body['sender'].sender, req.body['receiver'].receiver);
     res.json(result);
 }

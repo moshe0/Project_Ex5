@@ -23,7 +23,7 @@ class Header extends React.Component<{},IHeaderState>  {
     LoginImage = () =>{
         StateStore.getInstance().set('HoldReceiver', StateStore.getInstance().get('Receiver'));
         StateStore.getInstance().set('Receiver', null);
-        StateStore.getInstance().set('LogOutState', true);
+        StateStore.getInstance().set('ModalState', true);
     };
 
     public render() {

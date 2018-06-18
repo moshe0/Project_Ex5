@@ -6,7 +6,7 @@ import {Message} from "../Models/Message";
 class DataBase {
     public Users : User[];
     public Groups : Group[];
-    public Messages : Message[];
+    public Messages : any[];
 
     constructor() {
         this.Users = this.readFile("Users");

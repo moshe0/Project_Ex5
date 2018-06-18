@@ -6,6 +6,7 @@ import LogIn from "../components/LogIn";
 import LogOut from "../components/LogOut";
 import {BrowserRouter, Redirect, Route} from 'react-router-dom';
 import {appService} from "../AppService";
+import Add from "../components/Add";
 
 
 
@@ -42,29 +43,11 @@ class App extends React.Component<{}, IAppUserState>{
             StateStore.getInstance().setMany({
                 'currentUser' : LoginUser,
                 'Data' : Data,
-                'LogOutState': false,
+                'ModalState': false,
                 'LogInState': false
             });
         }
     };
-
-    Yes = () => {
-        StateStore.getInstance().setMany({
-            'HoldReceiver': null,
-            'currentUser': null,
-            'Data' : [],
-            'LogInState': true,
-        });
-    };
-
-    No = () => {
-        StateStore.getInstance().setMany({
-            'LogOutState': false,
-            'Receiver': StateStore.getInstance().get('HoldReceiver'),
-            'HoldReceiver': null,
-        });
-    };
-
 
     public InputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         let name = event.target.name;
@@ -77,6 +60,7 @@ class App extends React.Component<{}, IAppUserState>{
 
     };
 
+
     ShowLogin = () => {
         const canLogin = !!this.state.userLogin && !!this.state.passwordLogin;
 
@@ -88,21 +72,28 @@ class App extends React.Component<{}, IAppUserState>{
     };
 
     ShowLogOut = () => {
-        if (!StateStore.getInstance().get('currentUser')) {
-            return (<Redirect to="/LogIn" />)
-        }
+        if (!StateStore.getInstance().get('currentUser'))
+            return (<Redirect to="/LogIn" />);
+        return <LogOut/>
+    };
 
-        return <LogOut YesCallback={this.Yes} NoCallback={this.No}/>
+    ShowAdd = () =>{
+        const addTypes = ['New user', 'New group', 'Add user to existing group', 'Add new group to group'];
+        return <Add AddType={addTypes}/>
     };
 
     public render() {
+        // console.log(">>>>>>>>>>>>>>>>>>>>>>>>",window.location);
         const currentUser = !!StateStore.getInstance().get('currentUser');
+
         return (
             <BrowserRouter>
                 <div className="bodyClass">
                     {!currentUser ? (<Redirect to='/LogIn'/>) : <div/>}
                     <Route path='/LogIn' render={this.ShowLogin}/>
                     <Route path='/LogOut' render={this.ShowLogOut}/>
+                    <Route path='/Add' render={this.ShowAdd}/>
+
                     <Header/>
                     <Main/>
                 </div>

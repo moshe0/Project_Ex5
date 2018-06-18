@@ -11,7 +11,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const services = require("./../../Services");
 function GetMessages(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(req.body);
         const result = yield services.MessagesService.GetMessages(req.body['sender'].sender, req.body['receiver'].receiver);
         res.json(result);
     });

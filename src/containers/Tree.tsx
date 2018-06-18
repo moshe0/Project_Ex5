@@ -22,11 +22,11 @@ class Tree extends React.Component <{}, {}>{
 
         if(!!StateStore.getInstance().get('currentUser') &&
             !StateStore.getInstance().get('LogInState') &&
-            !StateStore.getInstance().get('LogOutState') &&
+            !StateStore.getInstance().get('ModalState') &&
             StateStore.FirstUse === 1
             ||
             StateStore.getInstance().get('LogInState') &&
-            StateStore.getInstance().get('LogOutState')
+            StateStore.getInstance().get('ModalState')
         ) {
             return true;
         }
@@ -41,7 +41,7 @@ class Tree extends React.Component <{}, {}>{
 
     //Befor component dead
     componentWillUnmount() {
-        if(StateStore.getInstance().get('LogOutState') === true)
+        if(StateStore.getInstance().get('ModalState') === true)
             StateStore.getInstance().set('TreeState', $(this.ref).find('li'));
         $(this.ref).off();
     }

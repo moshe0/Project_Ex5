@@ -18,7 +18,7 @@ export class StateStore implements IStateStore {
     currentUser : {Name};
     Receiver : any;
     HoldReceiver : any;
-    LogOutState : boolean;
+    ModalState : boolean;
     LogInState : boolean;
     TreeState : any;
 
@@ -29,7 +29,7 @@ export class StateStore implements IStateStore {
         currentUser : null,
         Receiver : null,
         HoldReceiver : null,
-        LogOutState : false,
+        ModalState : false,
         LogInState : true,
         TreeState : null
     };

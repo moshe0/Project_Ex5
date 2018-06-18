@@ -36,6 +36,7 @@ exports.AddMessage = AddMessage;
 function _AddMessage(message) {
     if (!DB_1.DB.Messages)
         DB_1.DB.Messages = [];
+    message.Id = MainHelpers_1.GetNextId(DB_1.DB.Messages);
     DB_1.DB.Messages.push(message);
     DB_1.DB.writeFile('Messages');
 }

@@ -1,24 +1,28 @@
 import * as React from "react";
 import Modal from "../containers/Modal";
 import {Link} from "react-router-dom";
+import StateStore from "../state/StateStore";
 
-interface ILogOutProps{
-    YesCallback : any,
-    NoCallback : any
-}
-
-
-class LogOut extends React.Component<ILogOutProps, {}> {
-    constructor(props : ILogOutProps){
+class LogOut extends React.Component<{}, {}> {
+    constructor(props : {}){
         super(props);
     }
 
     Yes = () => {
-        this.props.YesCallback();
+        StateStore.getInstance().setMany({
+            'HoldReceiver': null,
+            'currentUser': null,
+            'Data' : [],
+            'LogInState': true,
+        });
     };
 
     No = () => {
-        this.props.NoCallback();
+        StateStore.getInstance().setMany({
+            'ModalState': false,
+            'Receiver': StateStore.getInstance().get('HoldReceiver'),
+            'HoldReceiver': null,
+        });
     };
 
     render() {
