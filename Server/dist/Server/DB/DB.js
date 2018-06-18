@@ -1,38 +1,30 @@
-import * as fs from 'fs';
-import {User} from "../Models/User";
-import {Group} from "../Models/Group";
-import {Message} from "../Models/Message";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require("fs");
 class DataBase {
-    public Users : User[];
-    public Groups : Group[];
-    public Messages : Message[];
-
     constructor() {
         this.Users = this.readFile("Users");
         this.Groups = this.readFile("Groups");
         this.Messages = this.readFile("Messages");
     }
-
-    readFile(fileName: string) {
+    readFile(fileName) {
         const data = fs.readFileSync(`${__dirname}\\${fileName}Data.json`).toString();
         return JSON.parse(data);
     }
-
-    writeFile(fileName: string) {
+    writeFile(fileName) {
         switch (fileName) {
             case 'Users':
-                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Users), function(err) {
+                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Users), function (err) {
                     if (!!err)
                         return "failed";
-                        // res.send("failed");
+                    // res.send("failed");
                     else
                         return "succeeded";
-                        // res.send("succeeded");
+                    // res.send("succeeded");
                 });
-            break;
+                break;
             case 'Groups':
-                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Groups), function(err) {
+                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Groups), function (err) {
                     if (!!err)
                         return "failed";
                     // res.send("failed");
@@ -42,7 +34,7 @@ class DataBase {
                 });
                 break;
             case 'Messages':
-                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Messages), function(err) {
+                fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Messages), function (err) {
                     if (!!err)
                         return "failed";
                     // res.send("failed");
@@ -54,5 +46,5 @@ class DataBase {
         }
     }
 }
-
-export const DB = new DataBase();
+exports.DB = new DataBase();
+//# sourceMappingURL=DB.js.map

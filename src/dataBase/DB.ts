@@ -58,18 +58,18 @@ export class DB {
     }
 
 
-    static GetMessages(sender , reciver) : Message[]{
+    static GetMessages(sender , Receiver) : Message[]{
         let resMessages : Message[] = [];
-        if(GetType(reciver) === 'group'){
+        if(GetType(Receiver) === 'group'){
             for (let i: number = 0; i < DB.Messages.length; i++) {
-                if (DB.Messages[i].Receiving === reciver.Name)
+                if (DB.Messages[i].Receiving === Receiver.Name)
                     resMessages.push(DB.Messages[i]);
             }
         }
         else {
             for (let i: number = 0; i < DB.Messages.length; i++) {
-                if (DB.Messages[i].SendingUser === sender.Name && DB.Messages[i].Receiving === reciver.Name ||
-                    DB.Messages[i].SendingUser === reciver.Name && DB.Messages[i].Receiving === sender.Name)
+                if (DB.Messages[i].SendingUser === sender.Name && DB.Messages[i].Receiving === Receiver.Name ||
+                    DB.Messages[i].SendingUser === Receiver.Name && DB.Messages[i].Receiving === sender.Name)
                     resMessages.push(DB.Messages[i]);
             }
         }

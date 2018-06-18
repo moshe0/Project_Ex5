@@ -1,4 +1,4 @@
-import {DB} from "../Server/DB/DB";
+/*import {DB} from "../Server/DB/DB";
 
 class User {
     constructor(Id, Name, Age, Password) {
@@ -29,4 +29,4 @@ function GetNextId(user){
     console.log(user.userName, user.userPassword);
     let aa = DB.Users.map(item => item.Name === user.name);
     return aa;
-}
+}*/

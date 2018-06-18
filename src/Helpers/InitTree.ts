@@ -112,8 +112,8 @@ export class InitTree {
             pathArr.splice(0, 0, itemFocused.text());
             itemFocused = itemFocused.data('parent');
         }
-        let Reciver = InitTree.getMemberFromPathArr(pathArr, StateStore.getInstance().get('Data'), 0);
-        StateStore.getInstance().set('Reciver', Reciver);
+        let Receiver = InitTree.getMemberFromPathArr(pathArr, StateStore.getInstance().get('Data'), 0);
+        StateStore.getInstance().set('Receiver', Receiver);
     }
 
     static getMemberFromPathArr(pathArr : string[], data : any[], index : number) : any | null{

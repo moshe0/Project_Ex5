@@ -1,15 +1,11 @@
 import * as React from "react";
-import {Message} from "./../Models/Message";
-import {DB} from "../dataBase/DB";
 import StateStore from "../state/StateStore";
 import {GetType} from "../Helpers/MainHelpers";
+import {appService} from "../AppService";
 
 
-interface IMessageState{
-    Messages: Message[];
-}
 
-class MessageHistory extends React.Component <{}, IMessageState>{
+class MessageHistory extends React.Component <{}, {Messages}>{
 
     stateStore = StateStore.getInstance();
     messagesBlock : any;
@@ -21,15 +17,17 @@ class MessageHistory extends React.Component <{}, IMessageState>{
             Messages : [],
         };
 
-        this.stateStore.subscribe(()=>{
-            if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Reciver')) {
+        this.stateStore.subscribe(async()=>{
+            if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Receiver')) {
+                const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('Receiver'));
                 this.setState({
-                    Messages: DB.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('Reciver'))
+                    Messages : resMessages
                 });
             }
-            else if(!!this.stateStore.get('HoldReciver')){
-                this.setState({
-                    Messages: DB.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('HoldReciver'))
+            else if(!!this.stateStore.get('HoldReceiver')){
+                const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('HoldReceiver'));
+                    this.setState({
+                    Messages : resMessages
                 });
             }
             else{
@@ -41,15 +39,22 @@ class MessageHistory extends React.Component <{}, IMessageState>{
     }
 
     //Befor render
-    componentWillMount(){
-        if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Reciver')) {
+    async componentWillMount(){
+        const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('Receiver'));
+        if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Receiver')) {
             this.setState({
-                Messages: DB.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('Reciver'))
+                Messages : resMessages
             });
         }
-        else if(!!this.stateStore.get('HoldReciver')){
+        else if(!!this.stateStore.get('HoldReceiver')){
+            const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('HoldReceiver'));
             this.setState({
-                Messages: DB.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('HoldReciver'))
+                Messages : resMessages
+            });
+        }
+        else{
+            this.setState({
+                Messages : []
             });
         }
     }
@@ -72,13 +77,13 @@ class MessageHistory extends React.Component <{}, IMessageState>{
         }
         const listMessages = this.state.Messages.map((item, idx) => {
             const itemClassName = this.stateStore.get('currentUser').Name === item.SendingUser? 'MineMessage MessageHistory' : 'OtherMessage MessageHistory';
-            let Reciver = '';
-            if(!! this.stateStore.get('Reciver'))
-                Reciver = GetType(this.stateStore.get('Reciver'));
-            else if(!! this.stateStore.get('HoldReciver'))
-                Reciver = GetType(this.stateStore.get('HoldReciver'));
+            let Receiver = '';
+            if(!! this.stateStore.get('Receiver'))
+                Receiver = GetType(this.stateStore.get('Receiver'));
+            else if(!! this.stateStore.get('HoldReceiver'))
+                Receiver = GetType(this.stateStore.get('HoldReceiver'));
 
-            if(Reciver === 'group') {
+            if(Receiver === 'group') {
                 return (
                     <div className={'message'} key={idx}>
                         <div className={itemClassName}>

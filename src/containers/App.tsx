@@ -50,7 +50,7 @@ class App extends React.Component<{}, IAppUserState>{
 
     Yes = () => {
         StateStore.getInstance().setMany({
-            'HoldReciver': null,
+            'HoldReceiver': null,
             'currentUser': null,
             'Data' : [],
             'LogInState': true,
@@ -60,8 +60,8 @@ class App extends React.Component<{}, IAppUserState>{
     No = () => {
         StateStore.getInstance().setMany({
             'LogOutState': false,
-            'Reciver': StateStore.getInstance().get('HoldReciver'),
-            'HoldReciver': null,
+            'Receiver': StateStore.getInstance().get('HoldReceiver'),
+            'HoldReceiver': null,
         });
     };
 

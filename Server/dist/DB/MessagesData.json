@@ -1,7 +1,0 @@
-[
-  {"Id":1,"Content":"שלום","SendingUser":"Moshe","Receiving":"Yosef","TimeSent":"11:57:19"},
-  {"Id":2,"Content":"מה עניינים?","SendingUser":"Yosef","Receiving":"Moshe","TimeSent":"11:57:19"},
-  {"Id":3,"Content":"מצוין","SendingUser":"Moshe","Receiving":"Yosef","TimeSent":"11:57:19"},
-  {"Id":4,"Content":"יופי, להתראות","SendingUser":"Yosef","Receiving":"Moshe","TimeSent":"11:57:19"},
-  {"Id":5,"Content":"יופי, להתראות","SendingUser":"Yosef","Receiving":"Friends","TimeSent":"11:57:19"}
-]

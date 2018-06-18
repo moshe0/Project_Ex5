@@ -16,8 +16,8 @@ export class StateStore implements IStateStore {
     Groups : any[];
     Data : any[];
     currentUser : {Name};
-    Reciver : any;
-    HoldReciver : any;
+    Receiver : any;
+    HoldReceiver : any;
     LogOutState : boolean;
     LogInState : boolean;
     TreeState : any;
@@ -27,8 +27,8 @@ export class StateStore implements IStateStore {
         Groups : null,
         Data : null,
         currentUser : null,
-        Reciver : null,
-        HoldReciver : null,
+        Receiver : null,
+        HoldReceiver : null,
         LogOutState : false,
         LogInState : true,
         TreeState : null
