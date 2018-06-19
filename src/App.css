@@ -237,6 +237,11 @@ li{
     cursor: pointer;
 }
 
+.EditImageDisable {
+    background: url("Images/Edit/EditD.png");
+    cursor: default;
+}
+
 .EditImage {
     background: url("Images/Edit/Edit.png");
 }
@@ -247,6 +252,12 @@ div.EditImage:hover{
 
 div.EditImage:active{
     background: url("Images/Edit/EditP.png");
+}
+
+
+.AddImageDisable {
+    background: url("Images/Add/AddD.png");
+    cursor: default;
 }
 
 .AddImage {
@@ -261,6 +272,12 @@ div.AddImage:active{
     background: url("Images/Add/AddP.png");
 }
 
+
+.DelImageDisable {
+    background: url("Images/Del/DelD.png");
+    cursor: default;
+}
+
 .DelImage {
     background: url("Images/Del/Del.png");
 }
@@ -271,6 +288,12 @@ div.DelImage:hover{
 
 div.DelImage:active{
     background: url("Images/Del/DelP.png");
+}
+
+
+.FlatteningImageDisable {
+    background: url("Images/Flattening/FlatteningD.png");
+    cursor: default;
 }
 
 .FlatteningImage {

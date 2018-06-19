@@ -2,6 +2,7 @@ import * as React from "react";
 import Modal from "../containers/Modal";
 import {Link} from "react-router-dom";
 import StateStore from "../state/StateStore";
+import {User} from "../Models/User";
 
 
 
@@ -37,6 +38,16 @@ class Add extends React.Component<IAddProps, IAddState> {
     }
 
     Add = () => {
+        if(this.state.selectedType === 'New user'){
+            let userToSend = new User(0, this.state.userName, this.state.userPassword, parseInt(this.state.userAge));
+            userToSend = userToSend;
+        }
+        else if(this.state.selectedType === 'New group'){
+        }
+        else if(this.state.selectedType === 'Add existing user to marked group'){
+        }
+        else{
+        }
     };
 
     Cancel = () => {
@@ -50,7 +61,7 @@ class Add extends React.Component<IAddProps, IAddState> {
 
     private AddInputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         let name = event.target.name;
-        const value = event.target.value;
+        let value = event.target.value;
 
         if(name === 'userName')
             this.setState({
@@ -62,11 +73,16 @@ class Add extends React.Component<IAddProps, IAddState> {
                 userPassword: value,
                 canAdd: (this.state.userName !== ''  && value !== '' && this.state.userAge !== '')
             });
-        else if(name === 'userAge')
+        else if(name === 'userAge') {
+            if (parseInt(value) > 120)
+                value = '120';
+            else if (parseInt(value) <= 0)
+                return;
             this.setState({
                 userAge: value,
-                canAdd: (this.state.userName !== ''  && this.state.userPassword !== '' && value !== '')
+                canAdd: (this.state.userName !== '' && this.state.userPassword !== '' && value !== '')
             });
+        }
         else if(name === 'groupName')
             this.setState({
                 groupName: value,
@@ -113,7 +129,7 @@ class Add extends React.Component<IAddProps, IAddState> {
                     </p>
                     <p style={styles.p}>
                         <label style={styles.label} htmlFor="userAge">Age</label>
-                        <input style={styles.input} type="text" name="userAge" value={this.state.userAge} onChange={this.AddInputChangedHandler} />
+                        <input style={styles.input} type="number" min="1" max="130" name="userAge" value={this.state.userAge} onChange={this.AddInputChangedHandler} />
                     </p>
                 </div>
             );

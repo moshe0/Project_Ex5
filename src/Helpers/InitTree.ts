@@ -137,7 +137,7 @@ export class InitTree {
 
     static TreeSelectedType() : string {
         let itemFocused = $('.inFocus');
-        if(!itemFocused)
+        if(itemFocused.length === 0)
             return 'Not selected';
 
         if(itemFocused.hasClass('group')){

@@ -8,6 +8,7 @@ import {BrowserRouter, Redirect, Route} from 'react-router-dom';
 import {appService} from "../AppService";
 import Add from "../components/Add";
 import {InitTree} from "../Helpers/InitTree";
+import UpdateUser from "../components/UpdateUser";
 
 
 
@@ -88,12 +89,9 @@ class App extends React.Component<{}, IAppUserState>{
             addTypes = ['New user', 'New group', 'Add new group to marked group'];
         else
             addTypes = ['New user', 'New group'];
-
-
-
-
         return <Add AddType={addTypes}/>
     };
+
 
     public render() {
         // console.log(">>>>>>>>>>>>>>>>>>>>>>>>",window.location);
@@ -106,7 +104,7 @@ class App extends React.Component<{}, IAppUserState>{
                     <Route path='/LogIn' render={this.ShowLogin}/>
                     <Route path='/LogOut' render={this.ShowLogOut}/>
                     <Route path='/Add' render={this.ShowAdd}/>
-
+                    <Route path='/UpdateUser' component={UpdateUser}/>
                     <Header/>
                     <Main/>
                 </div>
