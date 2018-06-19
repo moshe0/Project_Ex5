@@ -4,21 +4,20 @@ import * as React from 'react'
 import StateStore from "../state/StateStore";
 import LogIn from "../components/LogIn";
 import LogOut from "../components/LogOut";
-import {BrowserRouter, Redirect, Route} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {appService} from "../AppService";
 import Add from "../components/Add";
 import {InitTree} from "../Helpers/InitTree";
 import UpdateUser from "../components/UpdateUser";
 
 
-
-interface IAppUserState{
-    userLogin : string,
-    passwordLogin : string
+interface IAppUserState {
+    userLogin: string,
+    passwordLogin: string
 }
 
-class App extends React.Component<{}, IAppUserState>{
-    canLogin : boolean;
+class App extends React.Component<{}, IAppUserState> {
+    canLogin: boolean;
 
     constructor(props: {}) {
         super(props);
@@ -28,7 +27,7 @@ class App extends React.Component<{}, IAppUserState>{
             passwordLogin: '11'
         };
 
-        StateStore.getInstance().subscribe(()=>{
+        StateStore.getInstance().subscribe(() => {
             let userLogin = this.state.userLogin;
             this.setState({
                 userLogin: userLogin
@@ -40,11 +39,11 @@ class App extends React.Component<{}, IAppUserState>{
         const LoginUser = await appService.GetSpecificUser(this.state.userLogin, this.state.passwordLogin);
         const Data = await appService.GetData();
 
-        if(!!LoginUser && !!Data) {
+        if (!!LoginUser && !!Data) {
             StateStore.FirstUse = 1;
             StateStore.getInstance().setMany({
-                'currentUser' : LoginUser,
-                'Data' : Data,
+                'currentUser': LoginUser,
+                'Data': Data,
                 'ModalState': false,
                 'LogInState': false
             });
@@ -55,10 +54,10 @@ class App extends React.Component<{}, IAppUserState>{
         let name = event.target.name;
         const value = event.target.value;
 
-        if(name === 'userLogin')
-            this.setState({ userLogin: value });
+        if (name === 'userLogin')
+            this.setState({userLogin: value});
         else
-            this.setState({ passwordLogin: value });
+            this.setState({passwordLogin: value});
 
     };
 
@@ -67,44 +66,60 @@ class App extends React.Component<{}, IAppUserState>{
         const canLogin = !!this.state.userLogin && !!this.state.passwordLogin;
 
         if (!!StateStore.getInstance().get('currentUser')) {
-            return (<Redirect to="/" />)
+            return (<Redirect to="/"/>)
         }
 
-        return <LogIn canLogin={canLogin} passwordLogin={this.state.passwordLogin} userLogin={this.state.userLogin} InputChangedHandler={this.InputChangedHandler} LoginCallback={this.Login}/>
+        return (
+            <LogIn
+                canLogin={canLogin}
+                passwordLogin={this.state.passwordLogin}
+                userLogin={this.state.userLogin}
+                InputChangedHandler={this.InputChangedHandler}
+                LoginCallback={this.Login}
+            />
+        );
     };
 
     ShowLogOut = () => {
         if (!StateStore.getInstance().get('currentUser'))
-            return (<Redirect to="/LogIn" />);
+            return (<Redirect to="/LogIn"/>);
         return <LogOut/>
     };
 
-    ShowAdd = () =>{
-        const type  = InitTree.TreeSelectedType();
+    ShowAdd = () => {
+        const type = InitTree.TreeSelectedType();
         let addTypes = [];
 
-        if(type === 'Group without groups')
+        if (type === 'Group without groups')
             addTypes = ['New user', 'New group', 'Add existing user to marked group', 'Add new group to marked group'];
-        else if(type === 'Group with groups')
+        else if (type === 'Group with groups')
             addTypes = ['New user', 'New group', 'Add new group to marked group'];
         else
             addTypes = ['New user', 'New group'];
         return <Add AddType={addTypes}/>
     };
 
-
-    public render() {
-        // console.log(">>>>>>>>>>>>>>>>>>>>>>>>",window.location);
+    appRoutes = () => {
         const currentUser = !!StateStore.getInstance().get('currentUser');
 
         return (
+            <div>
+                {!currentUser ? (<Redirect to='/LogIn'/>) : null}
+                <Route path='/LogOut' render={this.ShowLogOut}/>
+                <Route path='/Add' render={this.ShowAdd}/>
+                <Route path='/UpdateUser' component={UpdateUser}/>
+            </div>
+        )
+    };
+
+    public render() {
+        return (
             <BrowserRouter>
                 <div className="bodyClass">
-                    {!currentUser ? (<Redirect to='/LogIn'/>) : <div/>}
-                    <Route path='/LogIn' render={this.ShowLogin}/>
-                    <Route path='/LogOut' render={this.ShowLogOut}/>
-                    <Route path='/Add' render={this.ShowAdd}/>
-                    <Route path='/UpdateUser' component={UpdateUser}/>
+                    <Switch>
+                        <Route path='/LogIn' render={this.ShowLogin}/>
+                        <Route path='/' render={this.appRoutes}/>
+                    </Switch>
                     <Header/>
                     <Main/>
                 </div>
