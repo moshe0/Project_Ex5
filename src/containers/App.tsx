@@ -87,16 +87,20 @@ class App extends React.Component<{}, IAppUserState> {
     };
 
     ShowAdd = () => {
-        const type = InitTree.TreeSelectedType();
+        const type = InitTree.SelectedType();
         let addTypes = [];
-
-        if (type === 'Group without groups')
+        let isGroupWithUsersMode = false;
+        if (type === 'Empty group')
             addTypes = ['New user', 'New group', 'Add existing user to marked group', 'Add new group to marked group'];
+        else if(type === 'Group with users') {
+            addTypes = ['New user', 'New group', 'Add existing user to marked group', 'Add new group to marked group'];
+            isGroupWithUsersMode = true;
+        }
         else if (type === 'Group with groups')
             addTypes = ['New user', 'New group', 'Add new group to marked group'];
         else
             addTypes = ['New user', 'New group'];
-        return <Add AddType={addTypes}/>
+        return <Add AddType={addTypes} isGroupWithUsersMode={isGroupWithUsersMode}/>
     };
 
     appRoutes = () => {

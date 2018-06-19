@@ -8,6 +8,7 @@ import {User} from "../Models/User";
 
 interface IAddProps{
     AddType : string[],
+    isGroupWithUsersMode : boolean
 }
 
 interface IAddState {
@@ -18,6 +19,8 @@ interface IAddState {
     groupName : string,
     userNameG : string,
     groupNameG : string,
+    groupNameU : string,
+    newGroupName : string,
     canAdd : boolean
 }
 
@@ -33,6 +36,8 @@ class Add extends React.Component<IAddProps, IAddState> {
             groupName : '',
             userNameG : '',
             groupNameG : '',
+            groupNameU : '',
+            newGroupName : '',
             canAdd : false
         };
     }
@@ -41,12 +46,17 @@ class Add extends React.Component<IAddProps, IAddState> {
         if(this.state.selectedType === 'New user'){
             let userToSend = new User(0, this.state.userName, this.state.userPassword, parseInt(this.state.userAge));
             userToSend = userToSend;
+            // AddUser server
         }
         else if(this.state.selectedType === 'New group'){
+            // AddGroup server
         }
         else if(this.state.selectedType === 'Add existing user to marked group'){
+            // AddUserToExistingGroup server
+
         }
         else{
+            // AddNewGroupToGroup server
         }
     };
 
@@ -98,6 +108,16 @@ class Add extends React.Component<IAddProps, IAddState> {
                 groupNameG: value,
                 canAdd: value !== ''
             });
+        else if(name === 'groupNameU')
+            this.setState({
+                groupNameU: value,
+                canAdd: (this.state.newGroupName !== '' && value !== '')
+            });
+        else if(name === 'newGroupName')
+            this.setState({
+                newGroupName: value,
+                canAdd: (this.state.groupNameU !== '' && value !== '')
+            });
 
     };
 
@@ -110,6 +130,8 @@ class Add extends React.Component<IAddProps, IAddState> {
             groupName : '',
             userNameG : '',
             groupNameG : '',
+            groupNameU : '',
+            newGroupName : '',
             canAdd : false
         });
     };
@@ -154,7 +176,21 @@ class Add extends React.Component<IAddProps, IAddState> {
                 </div>
             );
         }
-        else{
+        else{ // Add new group to marked group
+            if(this.props.isGroupWithUsersMode){
+                return (
+                    <div>
+                        <p style={styles.p}>
+                            <label style={styles.label} htmlFor="groupNameU">Name</label>
+                            <input style={styles.input} type="text" name="groupNameU" value={this.state.groupNameU} onChange={this.AddInputChangedHandler} />
+                        </p>
+                        <p style={styles.p}>
+                            <label style={styles.label} htmlFor="newGroupName">New group name</label>
+                            <input style={styles.input} type="text" name="newGroupName" value={this.state.newGroupName} onChange={this.AddInputChangedHandler} />
+                        </p>
+                    </div>
+                );
+            }
             return (
                 <div>
                     <p style={styles.p}>

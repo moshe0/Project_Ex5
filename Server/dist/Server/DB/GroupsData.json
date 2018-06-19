@@ -14,10 +14,10 @@
               {"Id":6,"Name":"Ori","Password":"66","Age":66 },
               {"Id":7,"Name":"Roni","Password":"77","Age":77}
             ]
-          },
-          {"Id":5, "Name":"dd", "Members":[]}
+          }
         ]
-      }
+      },
+      {"Id":5, "Name":"dd", "Members":[]}
     ]
   },
   {"Id":4, "Name":"No Friends", "Members":[]}

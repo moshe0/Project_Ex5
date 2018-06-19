@@ -14,15 +14,17 @@ interface IUpdateState {
 class UpdateUser extends React.Component<{}, IUpdateState> {
     constructor(props : {}){
         super(props);
+
         this.state = {
-            userName : 'aaaa',
-            userPassword : '',
-            userAge : '',
-            canUpdate : false
+            userName : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Name : '',
+            userPassword : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Password : '',
+            userAge : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Age : '',
+            canUpdate : !!StateStore.getInstance().get('HoldReceiver')
         };
     }
 
     Update = () => {
+        // UpdateUser server
     };
 
     Cancel = () => {

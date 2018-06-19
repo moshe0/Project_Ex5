@@ -10,19 +10,33 @@ class TreeActions extends React.Component<{}, {}> {
     }
 
     OnClick = () =>{
-        StateStore.getInstance().set('HoldReceiver', StateStore.getInstance().get('Receiver'));
-        StateStore.getInstance().set('Receiver', null);
-        StateStore.getInstance().set('ModalState', true);
+        StateStore.getInstance().setMany({
+            'HoldReceiver': StateStore.getInstance().get('Receiver'),
+            'Receiver': null,
+            'ModalState': true,
+        });
     };
 
     OnDeleteClick = () =>{
+        const type = InitTree.SelectedType();
+
+        if (type === 'User without parent'){
+            //DeleteUser server
+        }
+        else if (type === 'User in a parent'){
+            //DeleteUserFromGroup server
+        }
+        else{
+            //DeleteGroup server
+        }
     };
 
     OnFlatteningClick = () =>{
+        // FlatteningGroup server
     };
 
     public render() {
-        const type  = InitTree.TreeSelectedType();
+        const type  = InitTree.SelectedType();
         if(type === 'Not selected'){
             return (
                 <div className="ActionTree">
@@ -53,7 +67,8 @@ class TreeActions extends React.Component<{}, {}> {
                 </div>
             );
         }
-        else if(type === 'Group without groups'){
+
+        else if(type === 'Group with groups'){
             return (
                 <div className="ActionTree">
                     <div className="TreeActionsImages EditImageDisable"/>
@@ -63,13 +78,40 @@ class TreeActions extends React.Component<{}, {}> {
                 </div>
             );
         }
-        else{
+
+        else if(type === 'Group with users'){
+            if(InitTree.SelectedParentType() === 'With one group') {
+                return (
+                    <div className="ActionTree">
+                        <div className="TreeActionsImages EditImageDisable"/>
+                        <div title="Delete selected item" className="TreeActionsImages DelImage" onClick={this.OnDeleteClick}/>
+                        <Link to='/Add'>
+                            <div title="Add" className="TreeActionsImages AddImage" onClick={this.OnClick}/>
+                        </Link>
+                        <div title="Flattening" className="TreeActionsImages FlatteningImage" onClick={this.OnFlatteningClick}/>
+                    </div>
+                );
+            }
+            else{
+                return (
+                    <div className="ActionTree">
+                        <div className="TreeActionsImages EditImageDisable"/>
+                        <div title="Delete selected item" className="TreeActionsImages DelImage" onClick={this.OnDeleteClick}/>
+                        <Link to='/Add'>
+                            <div title="Add" className="TreeActionsImages AddImage" onClick={this.OnClick}/>
+                        </Link>
+                        <div className="TreeActionsImages FlatteningImageDisable"/>
+                    </div>
+                );
+            }
+        }
+        else{ //Empty group
             return (
                 <div className="ActionTree">
                     <div className="TreeActionsImages EditImageDisable"/>
                     <div title="Delete selected item" className="TreeActionsImages DelImage" onClick={this.OnDeleteClick}/>
                     <Link to='/Add'><div title="Add" className="TreeActionsImages AddImage" onClick={this.OnClick}/></Link>
-                    <div title="Flattening" className="TreeActionsImages FlatteningImage" onClick={this.OnFlatteningClick}/>
+                    <div className="TreeActionsImages FlatteningImageDisable"/>
                 </div>
             );
         }

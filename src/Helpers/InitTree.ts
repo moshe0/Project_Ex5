@@ -102,15 +102,15 @@ export class InitTree {
 
         $(this).addClass('inFocus');
         InitTree.inFocusChanged();
-        console.log(InitTree.TreeSelectedType());
+        console.log(InitTree.SelectedType());
     }
 
     static inFocusChanged(){
-        let Receiver = InitTree.getItemFromPath(InitTree.getPathOfFocusedItem(), StateStore.getInstance().get('Data'), 0);
+        let Receiver = InitTree.getItemFromPath(InitTree.SelectedArrayPath(), StateStore.getInstance().get('Data'), 0);
         StateStore.getInstance().set('Receiver', Receiver);
     }
 
-    static getPathOfFocusedItem() : string[]{
+    static SelectedArrayPath() : string[]{
         let itemFocused = $('.inFocus');
 
         let pathArr : string[] = [];
@@ -135,7 +135,8 @@ export class InitTree {
         return null;
     }
 
-    static TreeSelectedType() : string {
+
+    static SelectedType() : string {
         let itemFocused = $('.inFocus');
         if(itemFocused.length === 0)
             return 'Not selected';
@@ -148,14 +149,39 @@ export class InitTree {
                     if(item.hasClass('group'))
                         return 'Group with groups';
                 }
+                for(let item of children){
+                    if(item.hasClass('user'))
+                        return 'Group with users';
+                }
             }
-            return 'Group without groups';
+            return 'Empty group';
         }
         else{
             if(itemFocused.data('parent') === '')
                 return 'User without parent';
             return 'User in a parent';
         }
+
+    }
+
+    static SelectedParentType() : string {
+        let itemFocused = $('.inFocus');
+        if(itemFocused.length === 0)
+            return 'Without parent';
+        let itemParent = itemFocused.data('parent');
+        let children = $(itemParent).data('items');
+        let numOfGroups = 0;
+        if(!!children){
+            for(let item of children){
+                if(item.hasClass('group')) {
+                    if(numOfGroups === 0)
+                        numOfGroups++;
+                    else
+                        return 'Group with groups';
+                }
+            }
+        }
+        return 'With one group';
     }
 
 
