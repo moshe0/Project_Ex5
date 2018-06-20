@@ -64,9 +64,13 @@ export class InitTree {
                     parent.data('items').push(li);
             }
 
-            if (GetItems(data[i]).length > 0) {
-                for (let i = 0; i < GetItems(data[i]).length; i++)
-                    this._Load(GetItems(data[i]), li, indentation + 25);
+            let aa = data[i];
+            if(aa.Name === 'No Friends')
+                console.log(aa);
+
+            if (GetItems(aa).length > 0) {
+                for (let i = 0; i < GetItems(aa).length; i++)
+                    this._Load(GetItems(aa), li, indentation + 25);
             }
         }
     }

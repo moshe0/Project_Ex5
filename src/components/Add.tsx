@@ -74,7 +74,6 @@ class Add extends React.Component<IAddProps, IAddState> {
             }
         }
 
-        console.log('*******************************************************');
         console.log(MessageRes);
         if(MessageRes.startsWith('succeeded')){
             StateStore.FirstUse = 1;
