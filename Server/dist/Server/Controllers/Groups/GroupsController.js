@@ -18,7 +18,7 @@ function GetGroups(req, res) {
 exports.GetGroups = GetGroups;
 function AddGroup(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.GroupsService.AddGroup(req.body);
+        const result = yield services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['id'].id);
         res.json(result);
     });
 }
@@ -51,11 +51,4 @@ function DeleteUserFromGroup(req, res) {
     });
 }
 exports.DeleteUserFromGroup = DeleteUserFromGroup;
-function AddNewGroupToGroup(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.GroupsService.AddNewGroupToGroup(req.params.id, req.body);
-        res.json(result);
-    });
-}
-exports.AddNewGroupToGroup = AddNewGroupToGroup;
 //# sourceMappingURL=GroupsController.js.map

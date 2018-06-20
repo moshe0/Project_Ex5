@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Message {
-    constructor(Content, SendingUser, Receiving, TimeSent) {
+    constructor(Id, Content, SendingUser, Receiving, TimeSent) {
+        this.Id = Id;
         this.Content = Content;
         this.SendingUser = SendingUser;
         this.Receiving = Receiving;

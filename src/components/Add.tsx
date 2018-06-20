@@ -64,9 +64,18 @@ class Add extends React.Component<IAddProps, IAddState> {
 
         }
         else{
-            // AddNewGroupToGroup server
+            if(this.state.groupNameG !== ''){
+                let groupToSend = new Group(0, this.state.groupNameG, []);
+                MessageRes = await appService.AddGroup(groupToSend, '', StateStore.getInstance().get('TreeSelected').Id);
+            }
+            else{
+                let groupToSend = new Group(0, this.state.groupNameU, []);
+                MessageRes = await appService.AddGroup(groupToSend, this.state.newGroupName, StateStore.getInstance().get('TreeSelected').Id);
+            }
         }
 
+        console.log('*******************************************************');
+        console.log(MessageRes);
         if(MessageRes.startsWith('succeeded')){
             StateStore.FirstUse = 1;
             StateStore.getInstance().setMany({

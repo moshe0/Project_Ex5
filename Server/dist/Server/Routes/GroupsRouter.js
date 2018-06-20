@@ -9,6 +9,5 @@ GroupsRouter.delete('/DeleteGroup', Controllers.GroupsController.DeleteGroup);
 GroupsRouter.delete('/FlatteningGroup', Controllers.GroupsController.FlatteningGroup);
 GroupsRouter.post('/AddUserToExistingGroup', Controllers.GroupsController.AddUserToExistingGroup);
 GroupsRouter.delete('/DeleteUserFromGroup', Controllers.GroupsController.DeleteUserFromGroup);
-GroupsRouter.post('/AddNewGroupToGroup', Controllers.GroupsController.AddNewGroupToGroup);
 exports.default = GroupsRouter;
 //# sourceMappingURL=GroupsRouter.js.map

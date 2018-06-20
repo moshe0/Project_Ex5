@@ -1,3 +1,4 @@
+import {Group} from "../Models/Group";
 
 export function GetNextId(obj : {Id}[]){
     let result = obj.map(item => item.Id);
@@ -11,6 +12,26 @@ export function GetNextId(obj : {Id}[]){
     }
     return res;
 }
+
+export function GetGroupArrId(obj : Group){
+    let idArr = [];
+    for(let item of obj.Members) {
+        if(GetType(item) === 'user')
+            break;
+        idArr.push({"Id" : item.Id});
+        idArr.concat(GetGroupNextId(item));
+    }
+    return [];
+}
+
+export function GetGroupNextId(obj : Group[]){
+    let groupArr = [];
+    for(let item of obj) {
+        groupArr.concat(GetGroupArrId(item));
+    }
+    return GetNextId(groupArr);
+}
+
 
 
 export function GetType(Obj) : string{

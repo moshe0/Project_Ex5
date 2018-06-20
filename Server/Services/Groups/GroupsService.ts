@@ -1,6 +1,8 @@
 import * as Controllers from "../../Controllers";
 import UserRouter from "../../Routes/UsersRouter";
 import {DB} from "../../DB/DB";
+import {GetGroupNextId, GetNextId, GetType} from "../../Helpers/MainHelpers";
+import {Group} from "../../Models/Group";
 
 export function GetGroups(){
     return new Promise((resolve) => {
@@ -15,17 +17,54 @@ function _GetGroups(){
 
 export function AddGroup(group: any, newGroupName : string, id : string){
     return new Promise((resolve) => {
-        const result = _AddGroup(group, newGroupName, id);
+
+        let result = '';
+        group.Id = GetNextId(DB.Groups);
+        if(id === ''){
+            DB.Groups.push(group);
+            result = DB.writeFile('Groups');
+            if(result === 'succeeded')
+                result = 'succeeded!!! group: ' + group.Name + ' added!!!';
+        }
+        else
+            result = _AddGroup(group, newGroupName, id, null);
         resolve(result);
     });
 }
-function _AddGroup(group: any, newGroupName : string, id : string){
-    console.log('group: ' + group);
-    console.log('newGroupName: ' + newGroupName);
-    console.log('arrPath: ' + id);
-    return "SSSSS";
+function _AddGroup(group: any, newGroupName : string, id : string, parent ?: Group){
+    for(let item of DB.Groups){
+        if(_AddGroupItem(group, newGroupName, id, item, null) === 'succeeded')
+            return 'succeeded!!! group: ' + group.Name + ' added!!!';
+    }
+    return 'failed';
 }
+function _AddGroupItem(group: any, newGroupName : string, id : string, node : Group, parent ?: Group) : string{
+    if(node.Id === parseInt(id)) {
+        if (newGroupName !== '') {
+            let newGroup = new Group(GetGroupNextId(DB.Groups), newGroupName, node.Members.slice());
+            node.Members = [];
+            node.Members.push(group);
+            node.Members.push(newGroup);
+            return DB.writeFile('Groups');
+        }
 
+        else {
+            if (node.Members.find(item => item.Name === group.Name && GetType(item) === 'group')) {
+                return 'failed';
+            }
+            node.Members.push(group);
+            return DB.writeFile('Groups');
+        }
+    }
+    for(let item of node.Members) {
+        if(GetType(item) === 'user')
+            break;
+        let res = _AddGroupItem(group, newGroupName, id, item, node);
+        if(res === 'succeeded')
+            return res;
+    }
+    return 'failed';
+}
 
 export function DeleteGroup(id: number){
     return new Promise((resolve) => {

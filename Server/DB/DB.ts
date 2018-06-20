@@ -5,7 +5,7 @@ import {Message} from "../Models/Message";
 
 class DataBase {
     public Users : any[];
-    public Groups : any[];
+    public Groups : Group[];
     public Messages : any[];
 
     constructor() {
@@ -19,7 +19,7 @@ class DataBase {
         return JSON.parse(data);
     }
 
-    writeFile(fileName: string) {
+    writeFile(fileName: string) : string {
         switch (fileName) {
             case 'Users':
                 fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Users), function(err) {
@@ -52,6 +52,7 @@ class DataBase {
                 });
                 break;
         }
+        return "failed";
     }
 }
 

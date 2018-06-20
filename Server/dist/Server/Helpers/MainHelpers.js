@@ -12,6 +12,25 @@ function GetNextId(obj) {
     return res;
 }
 exports.GetNextId = GetNextId;
+function GetGroupArrId(obj) {
+    let idArr = [];
+    for (let item of obj.Members) {
+        if (GetType(item) === 'user')
+            break;
+        idArr.push({ "Id": item.Id });
+        idArr.concat(GetGroupNextId(item));
+    }
+    return [];
+}
+exports.GetGroupArrId = GetGroupArrId;
+function GetGroupNextId(obj) {
+    let groupArr = [];
+    for (let item of obj) {
+        groupArr.concat(GetGroupArrId(item));
+    }
+    return GetNextId(groupArr);
+}
+exports.GetGroupNextId = GetGroupNextId;
 function GetType(Obj) {
     for (let propName in Obj) {
         if (propName === 'Members')
