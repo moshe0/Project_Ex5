@@ -7,7 +7,7 @@ export async function GetGroups(req, res){
 }
 
 export async function AddGroup(req, res){
-    const result = await services.GroupsService.AddGroup(req.body);
+    const result = await services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['id'].id);
     res.json(result);
 }
 
@@ -30,10 +30,5 @@ export async function AddUserToExistingGroup(req, res){
 
 export async function DeleteUserFromGroup(req, res){
     const result = await services.GroupsService.DeleteUserFromGroup(req.params.id1, req.params.id2);
-    res.json(result);
-}
-
-export async function AddNewGroupToGroup(req, res){
-    const result = await services.GroupsService.AddNewGroupToGroup(req.params.id, req.body);
     res.json(result);
 }

@@ -35,8 +35,11 @@ class Tree extends React.Component <{}, {}>{
 
     componentDidUpdate() {
         StateStore.FirstUse = 0;
+
         new InitTree($(this.ref), StateStore.getInstance().get('Data'));
-        console.log('****  Done  ****');
+        if(!!StateStore.getInstance().get('AllTree'))
+            InitTree.InitExsitingTree();
+        // console.log('****  Done  ****');
     }
 
     //Befor component dead

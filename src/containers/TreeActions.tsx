@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
-// import StateStore from "../state/StateStore";
 import {InitTree} from "../Helpers/InitTree";
+import StateStore from "../state/StateStore";
 
 
 class TreeActions extends React.Component<{}, {}> {
@@ -9,14 +9,14 @@ class TreeActions extends React.Component<{}, {}> {
         super(props);
     }
 
-    OnClick = () =>{
-        /*
-        StateStore.getInstance().setMany({
-            'HoldReceiver': StateStore.getInstance().get('Receiver'),
-            'Receiver': null,
-            'ModalState': true,
-        });
-        */
+    OnClick = () => {
+        if(InitTree.SelectedType() === 'Not selected')
+            StateStore.getInstance().set('AllTree',InitTree.GetAllTree());
+        else
+            StateStore.getInstance().setMany({
+                'AllTree' : InitTree.GetAllTree(),
+                'TreeSelected' : InitTree.GetTreeItem()
+            });
     };
 
     OnDeleteClick = () =>{

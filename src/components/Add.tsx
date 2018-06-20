@@ -4,6 +4,9 @@ import {Link, Redirect, Route} from "react-router-dom";
 import StateStore from "../state/StateStore";
 import {User} from "../Models/User";
 import {appService} from "../AppService";
+import {Group} from "../Models/Group";
+// import {InitTree} from "../Helpers/InitTree";
+// import {Group} from "../Models/Group";
 
 
 
@@ -53,7 +56,8 @@ class Add extends React.Component<IAddProps, IAddState> {
             MessageRes = await appService.AddUser(userToSend);
         }
         else if(this.state.selectedType === 'New group'){
-            // AddGroup server
+            let groupToSend = new Group(0, this.state.groupName, []);
+            MessageRes = await appService.AddGroup(groupToSend, '', '');
         }
         else if(this.state.selectedType === 'Add existing user to marked group'){
             // AddUserToExistingGroup server
@@ -65,7 +69,11 @@ class Add extends React.Component<IAddProps, IAddState> {
 
         if(MessageRes.startsWith('succeeded')){
             StateStore.FirstUse = 1;
-            StateStore.getInstance().set('Data', await appService.GetData());
+            StateStore.getInstance().setMany({
+                'Data' : await appService.GetData(),
+                'TreeSelected' : null
+            });
+            StateStore.getInstance().set('AllTree', null);
 
             this.setState({
                 MessageResolve : MessageRes

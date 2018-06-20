@@ -30,3 +30,14 @@ function GetNextId(user){
     let aa = DB.Users.map(item => item.Name === user.name);
     return aa;
 }*/
+
+
+a1 = ['a', 'b', 'c'];
+a2 = ['a', 'c', 'b'];
+
+console.log(arraysEqual(a1, a2));
+
+function arraysEqual(a1,a2) {
+    /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+    return JSON.stringify(a1)==JSON.stringify(a2);
+}

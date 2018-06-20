@@ -13,14 +13,17 @@ function _GetGroups(){
 }
 
 
-export function AddGroup(user: any){
+export function AddGroup(group: any, newGroupName : string, id : string){
     return new Promise((resolve) => {
-        const result = _AddGroup(user);
+        const result = _AddGroup(group, newGroupName, id);
         resolve(result);
     });
 }
-function _AddGroup(user: any){
-    return 'AddGroup';
+function _AddGroup(group: any, newGroupName : string, id : string){
+    console.log('group: ' + group);
+    console.log('newGroupName: ' + newGroupName);
+    console.log('arrPath: ' + id);
+    return "SSSSS";
 }
 
 
@@ -70,15 +73,3 @@ export function DeleteUserFromGroup(userId : number, groupId : number){
 function _DeleteUserFromGroup(userId : number, groupId : number){
     return 'DeleteUserFromGroup';
 }
-
-
-export function AddNewGroupToGroup(groupId : number, group : any){
-    return new Promise((resolve) => {
-        const result = _AddNewGroupToGroup(groupId, group);
-        resolve(result);
-    });
-}
-function _AddNewGroupToGroup(groupId : number, group : any){
-    return 'AddNewGroupToGroup';
-}
-

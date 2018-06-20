@@ -1,3 +1,5 @@
+import {TreeSelectedItem} from "../Models/TreeSelectedItem";
+
 interface IStateStore {
     state: {};
     set(key: string, val: any): void
@@ -20,7 +22,8 @@ export class StateStore implements IStateStore {
     HoldReceiver : any;
     ModalState : boolean;
     LogInState : boolean;
-    TreeState : any;
+    AllTree : any;
+    TreeSelected : TreeSelectedItem;
 
     state: {} = {
         Users : null,
@@ -31,7 +34,8 @@ export class StateStore implements IStateStore {
         HoldReceiver : null,
         ModalState : false,
         LogInState : true,
-        TreeState : null
+        AllTree : null,
+        TreeSelected : null
     };
 
     constructor(){

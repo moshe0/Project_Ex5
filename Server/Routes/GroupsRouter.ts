@@ -19,7 +19,5 @@ GroupsRouter.post('/AddUserToExistingGroup', Controllers.GroupsController.AddUse
 
 GroupsRouter.delete('/DeleteUserFromGroup', Controllers.GroupsController.DeleteUserFromGroup);
 
-GroupsRouter.post('/AddNewGroupToGroup', Controllers.GroupsController.AddNewGroupToGroup);
-
 
 export default GroupsRouter;

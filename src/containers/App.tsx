@@ -7,8 +7,8 @@ import LogOut from "../components/LogOut";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {appService} from "../AppService";
 import Add from "../components/Add";
-import {InitTree} from "../Helpers/InitTree";
 import UpdateUser from "../components/UpdateUser";
+import {InitTree} from "../Helpers/InitTree";
 
 
 interface IAppUserState {

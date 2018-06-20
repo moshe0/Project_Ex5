@@ -70,6 +70,21 @@ export function AddUser(user : any):Promise<string> {
     });
 }
 
+export function AddGroup(group: any, newGroupName : string, id : string):Promise<string> {
+    return fetch(basicUrl + '/groups/AddGroup', {
+        method: 'POST',
+        body: JSON.stringify({"group" : {group}, "newGroupName" : {newGroupName}, "id" : {id}}),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        console.log(res);
+        return res.json();
+    });
+}
+
+
+
+
+
 
 
 
