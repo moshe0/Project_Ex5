@@ -320,27 +320,27 @@ export class InitTree {
     static InitExsitingTree() {
         let prevData = StateStore.getInstance().get('AllTree');
         let currentData = $('ul li');
-        let i = 0, j = 0;
+        let indexPrev = 0, indexCurrent = 0;
         if (prevData.length > currentData.length) { // in case of Fletting or Delete
-            while (i < prevData.length && j < currentData.length) {
-                if (prevData[i].innerText === currentData[i].innerText) {
-                    $(currentData[i]).attr('class', prevData[i].classList);
-                    i++;
-                    j++;
+            while (indexPrev < prevData.length && indexCurrent < currentData.length) {
+                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText) {
+                    $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
+                    indexPrev++;
+                    indexCurrent++;
                 }
                 else
-                    i++;
+                    indexPrev++;
             }
         }
         else if (prevData.length < currentData.length) { // in case of Add
-            while (i < prevData.length && j < currentData.length) {
-                if (prevData[i].innerText === currentData[i].innerText) {
-                    $(currentData[i]).attr('class', prevData[i].classList);
-                    i++;
-                    j++;
+            while (indexPrev < prevData.length && indexCurrent < currentData.length) {
+                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText) {
+                    $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
+                    indexPrev++;
+                    indexCurrent++;
                 }
                 else
-                    j++;
+                    indexCurrent++;
             }
         }
     }

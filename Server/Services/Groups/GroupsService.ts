@@ -41,9 +41,10 @@ function _AddGroup(group: any, newGroupName : string, id : string, parent ?: Gro
 function _AddGroupItem(group: any, newGroupName : string, id : string, node : Group, parent ?: Group) : string{
     if(node.Id === parseInt(id)) {
         if (newGroupName !== '') {
+            const tmpMembers = node.Members.slice();
             node.Members = [];
             node.Members.push(group);
-            let newGroup = new Group(GetGroupNextId(DB.Groups), newGroupName, node.Members.slice());
+            let newGroup = new Group(GetGroupNextId(DB.Groups), newGroupName, tmpMembers);
             node.Members.push(newGroup);
             return DB.writeFile('Groups');
         }

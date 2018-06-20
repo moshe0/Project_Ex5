@@ -39,9 +39,10 @@ function _AddGroup(group, newGroupName, id, parent) {
 function _AddGroupItem(group, newGroupName, id, node, parent) {
     if (node.Id === parseInt(id)) {
         if (newGroupName !== '') {
+            const tmpMembers = node.Members.slice();
             node.Members = [];
             node.Members.push(group);
-            let newGroup = new Group_1.Group(MainHelpers_1.GetGroupNextId(DB_1.DB.Groups), newGroupName, node.Members.slice());
+            let newGroup = new Group_1.Group(MainHelpers_1.GetGroupNextId(DB_1.DB.Groups), newGroupName, tmpMembers);
             node.Members.push(newGroup);
             return DB_1.DB.writeFile('Groups');
         }
