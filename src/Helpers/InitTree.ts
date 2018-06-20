@@ -19,60 +19,53 @@ export class InitTree {
 
     public Load() {
         this.clear();
-        this._Load(this.data, '', 0);
+        for(let item of this.data)
+            this._Load(item, '', 0);
     }
 
 
-    private _Load(data: any[], parent: any, indentation: number) {
-        for (let i = 0; i < data.length; i++) {
-            let image = document.createElement("img");
-            image.style.margin = "5px";
-            image.style.verticalAlign = "middle";
-            image.src = "/TreeImages/Users/singleUser.png";
+    private _Load(data: any, parent: any, indentation: number) {
+        let image = document.createElement("img");
+        image.style.margin = "5px";
+        image.style.verticalAlign = "middle";
+        image.src = "/TreeImages/Users/singleUser.png";
 
-            let liTmp = document.createElement("li");
-            liTmp.style.textIndent = indentation + "px";
-            let li = $(liTmp);
+        let liTmp = document.createElement("li");
+        liTmp.style.textIndent = indentation + "px";
+        let li = $(liTmp);
 
-            let span = $("<span>");
-            span.appendTo(li);
-            let type = GetType(data[i]);
-            if (type === 'group')
-                image.src = "/TreeImages/Users/multipleUsers.png";
+        let span = $("<span>");
+        span.appendTo(li);
+        let type = GetType(data);
+        if (type === 'group')
+            image.src = "/TreeImages/Users/multipleUsers.png";
 
-            let img = $(image);
-            img.appendTo(span);
+        let img = $(image);
+        img.appendTo(span);
 
-            li.addClass(type);
-            li.append(data[i].Name);
-            li.appendTo(this.element);
-            li.on('dblclick', () => {
-                this.dblclick();
-            });
-            li.on('click', this.click);
-            li.data('parent', parent);
-            li.data('id', data[i].Id);
+        li.addClass(type);
+        li.append(data.Name);
+        li.appendTo(this.element);
+        li.on('dblclick', () => {
+            this.dblclick();
+        });
+        li.on('click', this.click);
+        li.data('parent', parent);
+        li.data('id', data.Id);
 
-
-            if (indentation > 0) {
-                li.addClass('hidden');
-                if (!parent.data('items')) {
-                    parent.data('items', []);
-                    parent.data('items').push(li);
-                }
-                else
-                    parent.data('items').push(li);
+        if (indentation > 0) {
+            li.addClass('hidden');
+            if (!parent.data('items')) {
+                parent.data('items', []);
+                parent.data('items').push(li);
             }
-
-            let aa = data[i];
-            if(aa.Name === 'No Friends')
-                console.log(aa);
-
-            if (GetItems(aa).length > 0) {
-                for (let i = 0; i < GetItems(aa).length; i++)
-                    this._Load(GetItems(aa), li, indentation + 25);
-            }
+            else
+                parent.data('items').push(li);
         }
+
+        for (let item of GetItems(data))
+            this._Load(item, li, indentation + 25);
+
     }
 
     clear() {
