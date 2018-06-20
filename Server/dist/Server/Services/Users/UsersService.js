@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const DB_1 = require("../../DB/DB");
+const MainHelpers_1 = require("../../Helpers/MainHelpers");
 function AddUser(user) {
     return new Promise((resolve) => {
         const result = _AddUser(user);
@@ -9,7 +10,14 @@ function AddUser(user) {
 }
 exports.AddUser = AddUser;
 function _AddUser(user) {
-    return 'AddUser';
+    if (_UserIndexOf(DB_1.DB.Users, user.Name) === -1) {
+        user.Id = MainHelpers_1.GetNextId(DB_1.DB.Users);
+        DB_1.DB.Users.push(Object.assign({}, user));
+        DB_1.DB.writeFile('Users');
+        return 'succeeded!!! user: ' + user.Name + ' added!!!';
+    }
+    else
+        return 'failed!!! The user is already exists!!!';
 }
 function DeleteUser(id) {
     return new Promise((resolve) => {
@@ -50,5 +58,13 @@ function GetSpecificUser(user) {
 exports.GetSpecificUser = GetSpecificUser;
 function _GetSpecificUser(user) {
     return DB_1.DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+}
+function _UserIndexOf(userArray, userName) {
+    for (var i = 0; i < userArray.length; i++) {
+        if (userArray[i].Name === userName) {
+            return i;
+        }
+    }
+    return -1;
 }
 //# sourceMappingURL=UsersService.js.map

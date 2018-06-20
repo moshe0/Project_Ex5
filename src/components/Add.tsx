@@ -1,8 +1,9 @@
 import * as React from "react";
 import Modal from "../containers/Modal";
-import {Link} from "react-router-dom";
+import {Link, Redirect, Route} from "react-router-dom";
 import StateStore from "../state/StateStore";
 import {User} from "../Models/User";
+import {appService} from "../AppService";
 
 
 
@@ -21,7 +22,9 @@ interface IAddState {
     groupNameG : string,
     groupNameU : string,
     newGroupName : string,
-    canAdd : boolean
+    canAdd : boolean,
+    MessageResolve : string
+
 }
 
 class Add extends React.Component<IAddProps, IAddState> {
@@ -38,15 +41,16 @@ class Add extends React.Component<IAddProps, IAddState> {
             groupNameG : '',
             groupNameU : '',
             newGroupName : '',
-            canAdd : false
+            canAdd : false,
+            MessageResolve : ''
         };
     }
 
-    Add = () => {
+    Add = async() => {
+        let MessageRes : string;
         if(this.state.selectedType === 'New user'){
             let userToSend = new User(0, this.state.userName, this.state.userPassword, parseInt(this.state.userAge));
-            userToSend = userToSend;
-            // AddUser server
+            MessageRes = await appService.AddUser(userToSend);
         }
         else if(this.state.selectedType === 'New group'){
             // AddGroup server
@@ -58,14 +62,15 @@ class Add extends React.Component<IAddProps, IAddState> {
         else{
             // AddNewGroupToGroup server
         }
-    };
 
-    Cancel = () => {
-        StateStore.getInstance().setMany({
-            'ModalState': false,
-            'Receiver': StateStore.getInstance().get('HoldReceiver'),
-            'HoldReceiver': null,
-        });
+        if(MessageRes.startsWith('succeeded')){
+            StateStore.FirstUse = 1;
+            StateStore.getInstance().set('Data', await appService.GetData());
+
+            this.setState({
+                MessageResolve : MessageRes
+            });
+        }
     };
 
 
@@ -135,6 +140,8 @@ class Add extends React.Component<IAddProps, IAddState> {
             canAdd : false
         });
     };
+
+    public AddRender =()=>(this.state.MessageResolve.startsWith('succeeded')? <Redirect to={{pathname:'/'}}/>: true);
 
 
     public AddInteraction(){
@@ -221,8 +228,9 @@ class Add extends React.Component<IAddProps, IAddState> {
                     </span>
                 </div>
                 {divSelected}
-                <button style={this.state.canAdd ? styles.button : styles.buttonDisabled} disabled={!this.state.canAdd} onClick={this.Add}>Add</button>
-                <Link to='/'><button style={styles.button} onClick={this.Cancel}>Cancel</button></Link>
+                <Route path='/Add' render={this.AddRender}/>
+                <Link to='/Add'><button style={this.state.canAdd ? styles.button : styles.buttonDisabled} disabled={!this.state.canAdd} onClick={this.Add}>Add</button></Link>
+                <Link to='/'><button style={styles.button}>Cancel</button></Link>
             </Modal>
         );
     }

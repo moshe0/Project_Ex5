@@ -1,4 +1,5 @@
 import {DB} from "../../DB/DB";
+import {GetNextId} from "../../Helpers/MainHelpers";
 
 
 
@@ -9,7 +10,14 @@ export function AddUser(user: any){
     });
 }
 function _AddUser(user: any){
-    return 'AddUser';
+    if(_UserIndexOf(DB.Users, user.Name) === -1) {
+        user.Id = GetNextId(DB.Users);
+        DB.Users.push(Object.assign({}, user));
+        DB.writeFile('Users');
+        return 'succeeded!!! user: ' + user.Name + ' added!!!';
+    }
+    else
+        return 'failed!!! The user is already exists!!!';
 }
 
 
@@ -56,3 +64,12 @@ function _GetSpecificUser(user){
     return DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
 }
 
+
+function _UserIndexOf(userArray ,userName){
+    for(var i=0 ; i<userArray.length ; i++){
+        if(userArray[i].Name === userName){
+            return i;
+        }
+    }
+    return -1;
+}

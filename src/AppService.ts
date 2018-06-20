@@ -1,4 +1,4 @@
-import {AddMessage, GetGroups, GetMessages, GetSpecificUser, GetUsers} from "./ServiceApi";
+import {AddMessage, AddUser, GetGroups, GetMessages, GetSpecificUser, GetUsers} from "./ServiceApi";
 import {User} from "./Models/User";
 
 export class AppService {
@@ -50,7 +50,6 @@ export class AppService {
         }
     }
 
-
     async AddMessage(message : any) {
         try {
             const ObjMessages = await AddMessage(message);
@@ -63,6 +62,21 @@ export class AppService {
             return null;
         }
     }
+
+    async AddUser(user : any) {
+        try {
+            const ObjUser= await AddUser(user);
+
+            console.log('AddUser SUCCESSFUL');
+            return ObjUser;
+        }
+        catch (e) {
+            console.log('AddUser FAILD');
+            return null;
+        }
+    }
+
+
 
 
 }

@@ -58,3 +58,21 @@ export function AddMessage(message : any):Promise<void> {
     });
 }
 
+
+export function AddUser(user : any):Promise<string> {
+    return fetch(basicUrl + '/users/AddUser', {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        console.log(res);
+        return res.json();
+    });
+}
+
+
+
+
+
+
+

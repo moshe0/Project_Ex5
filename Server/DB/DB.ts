@@ -4,8 +4,8 @@ import {Group} from "../Models/Group";
 import {Message} from "../Models/Message";
 
 class DataBase {
-    public Users : User[];
-    public Groups : Group[];
+    public Users : any[];
+    public Groups : any[];
     public Messages : any[];
 
     constructor() {

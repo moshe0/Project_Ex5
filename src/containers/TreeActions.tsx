@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
-import StateStore from "../state/StateStore";
+// import StateStore from "../state/StateStore";
 import {InitTree} from "../Helpers/InitTree";
 
 
@@ -10,11 +10,13 @@ class TreeActions extends React.Component<{}, {}> {
     }
 
     OnClick = () =>{
+        /*
         StateStore.getInstance().setMany({
             'HoldReceiver': StateStore.getInstance().get('Receiver'),
             'Receiver': null,
             'ModalState': true,
         });
+        */
     };
 
     OnDeleteClick = () =>{
