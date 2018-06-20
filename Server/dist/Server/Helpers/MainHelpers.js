@@ -13,20 +13,20 @@ function GetNextId(obj) {
 }
 exports.GetNextId = GetNextId;
 function GetGroupArrId(obj) {
-    let idArr = [];
+    let groupArr = [];
+    groupArr.push({ "Id": obj.Id });
     for (let item of obj.Members) {
         if (GetType(item) === 'user')
             break;
-        idArr.push({ "Id": item.Id });
-        idArr.concat(GetGroupNextId(item));
+        groupArr = groupArr.concat(GetGroupArrId(item));
     }
-    return [];
+    return groupArr;
 }
 exports.GetGroupArrId = GetGroupArrId;
 function GetGroupNextId(obj) {
     let groupArr = [];
     for (let item of obj) {
-        groupArr.concat(GetGroupArrId(item));
+        groupArr = groupArr.concat(GetGroupArrId(item));
     }
     return GetNextId(groupArr);
 }

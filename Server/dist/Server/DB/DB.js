@@ -44,7 +44,7 @@ class DataBase {
                 });
                 break;
         }
-        return "failed";
+        return "succeeded";
     }
 }
 exports.DB = new DataBase();

@@ -19,7 +19,7 @@ export function AddGroup(group: any, newGroupName : string, id : string){
     return new Promise((resolve) => {
 
         let result = '';
-        group.Id = GetNextId(DB.Groups);
+        group.Id = GetGroupNextId(DB.Groups);
         if(id === ''){
             DB.Groups.push(group);
             result = DB.writeFile('Groups');
@@ -41,9 +41,9 @@ function _AddGroup(group: any, newGroupName : string, id : string, parent ?: Gro
 function _AddGroupItem(group: any, newGroupName : string, id : string, node : Group, parent ?: Group) : string{
     if(node.Id === parseInt(id)) {
         if (newGroupName !== '') {
-            let newGroup = new Group(GetGroupNextId(DB.Groups), newGroupName, node.Members.slice());
             node.Members = [];
             node.Members.push(group);
+            let newGroup = new Group(GetGroupNextId(DB.Groups), newGroupName, node.Members.slice());
             node.Members.push(newGroup);
             return DB.writeFile('Groups');
         }

@@ -14,20 +14,20 @@ export function GetNextId(obj : {Id}[]){
 }
 
 export function GetGroupArrId(obj : Group){
-    let idArr = [];
+    let groupArr = [];
+    groupArr.push({"Id" : obj.Id});
     for(let item of obj.Members) {
         if(GetType(item) === 'user')
             break;
-        idArr.push({"Id" : item.Id});
-        idArr.concat(GetGroupNextId(item));
+        groupArr = groupArr.concat(GetGroupArrId(item));
     }
-    return [];
+    return groupArr;
 }
 
 export function GetGroupNextId(obj : Group[]){
     let groupArr = [];
     for(let item of obj) {
-        groupArr.concat(GetGroupArrId(item));
+        groupArr = groupArr.concat(GetGroupArrId(item));
     }
     return GetNextId(groupArr);
 }

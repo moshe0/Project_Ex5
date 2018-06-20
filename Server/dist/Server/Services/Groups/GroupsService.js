@@ -16,7 +16,7 @@ function _GetGroups() {
 function AddGroup(group, newGroupName, id) {
     return new Promise((resolve) => {
         let result = '';
-        group.Id = MainHelpers_1.GetNextId(DB_1.DB.Groups);
+        group.Id = MainHelpers_1.GetGroupNextId(DB_1.DB.Groups);
         if (id === '') {
             DB_1.DB.Groups.push(group);
             result = DB_1.DB.writeFile('Groups');
@@ -39,9 +39,9 @@ function _AddGroup(group, newGroupName, id, parent) {
 function _AddGroupItem(group, newGroupName, id, node, parent) {
     if (node.Id === parseInt(id)) {
         if (newGroupName !== '') {
-            let newGroup = new Group_1.Group(MainHelpers_1.GetGroupNextId(DB_1.DB.Groups), newGroupName, node.Members.slice());
             node.Members = [];
             node.Members.push(group);
+            let newGroup = new Group_1.Group(MainHelpers_1.GetGroupNextId(DB_1.DB.Groups), newGroupName, node.Members.slice());
             node.Members.push(newGroup);
             return DB_1.DB.writeFile('Groups');
         }
