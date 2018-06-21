@@ -282,6 +282,8 @@ export class InitTree {
         if (itemFocused.length === 0)
             return -1;
         let itemParent = itemFocused.data('parent');
+        if (!$(itemParent).data('id'))
+            return -1;
         console.log($(itemParent).data('id'));
         console.log(typeof ($(itemParent).data('id')));
         return $(itemParent).data('id');

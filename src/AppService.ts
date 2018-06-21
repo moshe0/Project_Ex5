@@ -2,7 +2,7 @@ import {
     AddGroup,
     AddMessage,
     AddUser,
-    AddUserToExistingGroup, DeleteUserFromGroup,
+    AddUserToExistingGroup, DeleteGroup, DeleteUserFromGroup, FlatteningGroup,
     GetGroups,
     GetMessages,
     GetSpecificUser,
@@ -118,6 +118,31 @@ export class AppService {
             return null;
         }
     }
+
+    async FlatteningGroup(id: number, parentId : number) {
+        try {
+            const ObjGroup = await FlatteningGroup(id, parentId);
+            console.log('FlatteningGroup SUCCESSFUL');
+            return ObjGroup;
+        }
+        catch (e) {
+            console.log('FlatteningGroup FAILD');
+            return null;
+        }
+    }
+
+    async DeleteGroup(id: number, parentId : number) {
+        try {
+            const ObjGroup = await DeleteGroup(id, parentId);
+            console.log('DeleteGroup SUCCESSFUL');
+            return ObjGroup;
+        }
+        catch (e) {
+            console.log('DeleteGroup FAILD');
+            return null;
+        }
+    }
+
 
 
 

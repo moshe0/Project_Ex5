@@ -99,3 +99,25 @@ export function DeleteUserFromGroup(userId: number, parentId : number):Promise<s
         return res.json();
     });
 }
+
+export function FlatteningGroup(id: number, parentId : number):Promise<string> {
+    return fetch(basicUrl + '/groups/FlatteningGroup', {
+        method: 'DELETE',
+        body: JSON.stringify({"id" : {id}, "parentId" : {parentId}}),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}
+
+export function DeleteGroup(id: number, parentId : number):Promise<string> {
+    return fetch(basicUrl + '/groups/DeleteGroup', {
+        method: 'DELETE',
+        body: JSON.stringify({"id" : {id}, "parentId" : {parentId}}),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}
+
+

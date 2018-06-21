@@ -14,8 +14,8 @@ class Tree extends React.Component <{}, {}>{
 
 
     shouldComponentUpdate(){
-        console.log('Tree componentDidUpdate');
-        console.log('Data: ', StateStore.getInstance().get('Data'));
+        // console.log('Tree componentDidUpdate');
+        // console.log('Data: ', StateStore.getInstance().get('Data'));
         // console.log('currentUser: ', StateStore.getInstance().get('currentUser'));
         // console.log('LogInState: ' ,StateStore.getInstance().get('LogInState'));
         // console.log('LogIOutState: ' , StateStore.getInstance().get('LogIOutState'));

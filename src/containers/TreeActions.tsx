@@ -32,12 +32,11 @@ class TreeActions extends React.Component<{}, {}> {
         if (type === 'User without parent'){
             //DeleteUser server
         }
-        else if (type === 'User in a parent'){
-            //DeleteUserFromGroup server
+        else if (type === 'User in a parent'){ //DeleteUserFromGroup server
             MessageRes = await appService.DeleteUserFromGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
         }
-        else{
-            //DeleteGroup server
+        else{ //DeleteGroup server
+            MessageRes = await appService.DeleteGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
         }
 
         console.log(MessageRes);
@@ -49,8 +48,23 @@ class TreeActions extends React.Component<{}, {}> {
         StateStore.getInstance().set('AllTree', null);
     };
 
-    OnFlatteningClick = () =>{
-        // FlatteningGroup server
+
+    OnFlatteningClick = async () =>{
+        StateStore.getInstance().setMany({
+            'AllTree' : InitTree.GetAllTree(),
+            'TreeSelected' : InitTree.GetTreeItem()
+        });
+        let MessageRes : string;
+
+        MessageRes = await appService.FlatteningGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
+
+        console.log(MessageRes);
+        StateStore.FirstUse = 1;
+        StateStore.getInstance().setMany({
+            'Data' : await appService.GetData(),
+            'TreeSelected' : null
+        });
+        StateStore.getInstance().set('AllTree', null);
     };
 
     public render() {
@@ -98,7 +112,7 @@ class TreeActions extends React.Component<{}, {}> {
         }
 
         else if(type === 'Group with users'){
-            if(InitTree.SelectedParentType() === 'With one group') {
+            if(InitTree.SelectedParentType() === 'With one group' && InitTree.GetParentId() !== -1) {
                 return (
                     <div className="ActionTree">
                         <div className="TreeActionsImages EditImageDisable"/>
