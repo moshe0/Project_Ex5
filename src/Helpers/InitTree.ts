@@ -277,6 +277,16 @@ export class InitTree {
         }
     }
 
+    static GetParentId(): number {
+        let itemFocused = $('.inFocus');
+        if (itemFocused.length === 0)
+            return -1;
+        let itemParent = itemFocused.data('parent');
+        console.log($(itemParent).data('id'));
+        console.log(typeof ($(itemParent).data('id')));
+        return $(itemParent).data('id');
+    }
+
     static SelectedParentType(): string {
         let itemFocused = $('.inFocus');
         if (itemFocused.length === 0)
@@ -298,7 +308,7 @@ export class InitTree {
     }
 
 
-    static GetSelectedId(): string {
+    static GetSelectedId(): number {
         let itemFocused = $('.inFocus');
         return itemFocused.data('id');
     }
@@ -306,6 +316,7 @@ export class InitTree {
     static GetTreeItem(): TreeSelectedItem {
         return new TreeSelectedItem(
             InitTree.GetSelectedId(),
+            InitTree.GetParentId(),
             InitTree.SelectedType(),
             InitTree.SelectedParentType(),
             InitTree.SelectedArrayPath()

@@ -69,7 +69,7 @@ export function AddUser(user : any):Promise<string> {
     });
 }
 
-export function AddGroup(group: any, newGroupName : string, parentId : string):Promise<string> {
+export function AddGroup(group: any, newGroupName : string, parentId : number):Promise<string> {
     return fetch(basicUrl + '/groups/AddGroup', {
         method: 'POST',
         body: JSON.stringify({"group" : {group}, "newGroupName" : {newGroupName}, "parentId" : {parentId}}),
@@ -80,10 +80,20 @@ export function AddGroup(group: any, newGroupName : string, parentId : string):P
 }
 
 
-export function AddUserToExistingGroup(userName: string, parentId : string):Promise<string> {
+export function AddUserToExistingGroup(userName: string, parentId : number):Promise<string> {
     return fetch(basicUrl + '/groups/AddUserToExistingGroup', {
         method: 'POST',
         body: JSON.stringify({"userName" : {userName}, "parentId" : {parentId}}),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}
+
+export function DeleteUserFromGroup(userId: number, parentId : number):Promise<string> {
+    return fetch(basicUrl + '/groups/DeleteUserFromGroup', {
+        method: 'DELETE',
+        body: JSON.stringify({"userId" : {userId}, "parentId" : {parentId}}),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
         return res.json();

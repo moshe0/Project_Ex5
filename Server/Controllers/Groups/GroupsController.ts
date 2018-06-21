@@ -29,6 +29,6 @@ export async function AddUserToExistingGroup(req, res){
 }
 
 export async function DeleteUserFromGroup(req, res){
-    const result = await services.GroupsService.DeleteUserFromGroup(req.params.id1, req.params.id2);
+    const result = await services.GroupsService.DeleteUserFromGroup(req.body['userId'].userId, req.body['parentId'].parentId);
     res.json(result);
 }

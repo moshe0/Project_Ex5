@@ -2,7 +2,7 @@ import {
     AddGroup,
     AddMessage,
     AddUser,
-    AddUserToExistingGroup,
+    AddUserToExistingGroup, DeleteUserFromGroup,
     GetGroups,
     GetMessages,
     GetSpecificUser,
@@ -83,7 +83,7 @@ export class AppService {
         }
     }
 
-    async AddGroup(group: any, newGroupName : string, parentId : string) {
+    async AddGroup(group: any, newGroupName : string, parentId : number) {
         try {
             const ObjGroup = await AddGroup(group, newGroupName, parentId);
             console.log('AddGroup SUCCESSFUL');
@@ -95,7 +95,7 @@ export class AppService {
         }
     }
 
-    async AddUserToExistingGroup(userName: string, parentId : string) {
+    async AddUserToExistingGroup(userName: string, parentId : number) {
         try {
             const ObjGroup = await AddUserToExistingGroup(userName, parentId);
             console.log('AddUserToExistingGroup SUCCESSFUL');
@@ -103,6 +103,18 @@ export class AppService {
         }
         catch (e) {
             console.log('AddUserToExistingGroup FAILD');
+            return null;
+        }
+    }
+
+    async DeleteUserFromGroup(userId: number, parentId : number) {
+        try {
+            const ObjGroup = await DeleteUserFromGroup(userId, parentId);
+            console.log('DeleteUserFromGroup SUCCESSFUL');
+            return ObjGroup;
+        }
+        catch (e) {
+            console.log('DeleteUserFromGroup FAILD');
             return null;
         }
     }

@@ -16,11 +16,11 @@ function _GetGroups(){
 }
 
 
-export function AddGroup(group: any, newGroupName : string, parentId : string){
+export function AddGroup(group: any, newGroupName : string, parentId : number){
     return new Promise((resolve) => {
         let result = '';
         group.Id = GetGroupNextId(DB.Groups);
-        if(parentId === ''){
+        if(parentId === -1){
             DB.Groups.push(group);
             result = DB.writeFile('Groups');
             if(result === 'succeeded')
@@ -34,15 +34,15 @@ export function AddGroup(group: any, newGroupName : string, parentId : string){
         resolve(result);
     });
 }
-function _AddGroup(group: any, newGroupName : string, parentId : string, parent ?: Group){
+function _AddGroup(group: any, newGroupName : string, parentId : number, parent ?: Group){
     for(let item of DB.Groups){
         if(_AddGroupItem(group, newGroupName, parentId, item, null) === 'succeeded')
             return 'succeeded!!! group: ' + group.Name + ' added!!!';
     }
     return 'failed';
 }
-function _AddGroupItem(group: any, newGroupName : string, parentId : string, node : Group, parent ?: Group) : string{
-    if(node.Id === parseInt(parentId)) {
+function _AddGroupItem(group: any, newGroupName : string, parentId : number, node : Group, parent ?: Group) : string{
+    if(node.Id === parentId) {
         if (node.Members.find(item => item.Name === group.Name && GetType(item) === 'group'))
             return 'failed';
         if (newGroupName !== '') {
@@ -98,22 +98,22 @@ function _FlatteningGroup(id: number){
 
 
 
-export function AddUserToExistingGroup(userName: string, parentId : string){
+export function AddUserToExistingGroup(userName: string, parentId : number){
     return new Promise((resolve) => {
         let user = DB.Users.find(item => item.Name === userName);
         const result = _AddUserToExistingGroup(user, parentId);
         resolve(result);
     });
 }
-function _AddUserToExistingGroup(user: User, parentId : string){
+function _AddUserToExistingGroup(user: User, parentId : number){
     for(let item of DB.Groups){
         if(_AddUserToExistingGroupItem(user, item, parentId) === 'succeeded')
             return 'succeeded!!! user: ' + user.Name + ' added to group!!!';
     }
     return 'failed';
 }
-function _AddUserToExistingGroupItem(user: User, node : Group, parentId : string){
-    if(node.Id === parseInt(parentId)) {
+function _AddUserToExistingGroupItem(user: User, node : Group, parentId : number){
+    if(node.Id === parentId) {
         if (node.Members.find(item => item.Name === user.Name && GetType(item) === 'user')) {
             return 'failed';
         }
@@ -131,12 +131,35 @@ function _AddUserToExistingGroupItem(user: User, node : Group, parentId : string
 }
 
 
-export function DeleteUserFromGroup(userId : number, groupId : number){
+export function DeleteUserFromGroup(userId : number, parentId : number){
     return new Promise((resolve) => {
-        const result = _DeleteUserFromGroup(userId, groupId);
+        const userName = DB.Users.find(item => item.Id === userId);
+        const result = _DeleteUserFromGroup(userName, parentId);
         resolve(result);
     });
 }
-function _DeleteUserFromGroup(userId : number, groupId : number){
-    return 'DeleteUserFromGroup';
+function _DeleteUserFromGroup(userName : string, parentId : number){
+    for(let item of DB.Groups){
+        if(_DeleteUserFromGroupItem(userName, parentId, item) === 'succeeded')
+            return 'succeeded!!! user: ' + userName + ' deleted from group!!!';
+    }
+    return 'failed';
+}
+function _DeleteUserFromGroupItem(userName : string, parentId : number, node : Group){
+    if(node.Id === parentId) {
+        let index = node.Members.find(item => item.Id === userName && GetType(item) === 'user')
+        if (!index) {
+            return 'failed';
+        }
+        node.Members.splice(index, 1);
+        return DB.writeFile('Groups');
+    }
+    for(let item of node.Members) {
+        if(GetType(item) === 'user')
+            break;
+        let res = _DeleteUserFromGroupItem(userName, parentId, item);
+        if(res === 'succeeded')
+            return res;
+    }
+    return 'failed';
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import {Link} from "react-router-dom";
 import {InitTree} from "../Helpers/InitTree";
 import StateStore from "../state/StateStore";
+import {appService} from "../AppService";
 
 
 class TreeActions extends React.Component<{}, {}> {
@@ -19,7 +20,13 @@ class TreeActions extends React.Component<{}, {}> {
             });
     };
 
-    OnDeleteClick = () =>{
+    OnDeleteClick = async () =>{
+        StateStore.getInstance().setMany({
+            'AllTree' : InitTree.GetAllTree(),
+            'TreeSelected' : InitTree.GetTreeItem()
+        });
+        let MessageRes : string;
+
         const type = InitTree.SelectedType();
 
         if (type === 'User without parent'){
@@ -27,10 +34,17 @@ class TreeActions extends React.Component<{}, {}> {
         }
         else if (type === 'User in a parent'){
             //DeleteUserFromGroup server
+            MessageRes = await appService.DeleteUserFromGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
         }
         else{
             //DeleteGroup server
         }
+
+        console.log(MessageRes);
+        StateStore.getInstance().setMany({
+            'AllTree' : null,
+            'TreeSelected' : null
+        });
     };
 
     OnFlatteningClick = () =>{

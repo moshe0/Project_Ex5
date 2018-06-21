@@ -57,7 +57,7 @@ class Add extends React.Component<IAddProps, IAddState> {
         }
         else if(this.state.selectedType === 'New group'){
             let groupToSend = new Group(0, this.state.groupName, []);
-            MessageRes = await appService.AddGroup(groupToSend, '', '');
+            MessageRes = await appService.AddGroup(groupToSend, '', -1);
         }
         else if(this.state.selectedType === 'Add existing user to marked group'){
             MessageRes = await appService.AddUserToExistingGroup(this.state.userNameG, StateStore.getInstance().get('TreeSelected').Id);

@@ -17,7 +17,7 @@ function AddGroup(group, newGroupName, parentId) {
     return new Promise((resolve) => {
         let result = '';
         group.Id = MainHelpers_1.GetGroupNextId(DB_1.DB.Groups);
-        if (parentId === '') {
+        if (parentId === -1) {
             DB_1.DB.Groups.push(group);
             result = DB_1.DB.writeFile('Groups');
             if (result === 'succeeded')
@@ -40,7 +40,7 @@ function _AddGroup(group, newGroupName, parentId, parent) {
     return 'failed';
 }
 function _AddGroupItem(group, newGroupName, parentId, node, parent) {
-    if (node.Id === parseInt(parentId)) {
+    if (node.Id === parentId) {
         if (node.Members.find(item => item.Name === group.Name && MainHelpers_1.GetType(item) === 'group'))
             return 'failed';
         if (newGroupName !== '') {
@@ -103,7 +103,7 @@ function _AddUserToExistingGroup(user, parentId) {
     return 'failed';
 }
 function _AddUserToExistingGroupItem(user, node, parentId) {
-    if (node.Id === parseInt(parentId)) {
+    if (node.Id === parentId) {
         if (node.Members.find(item => item.Name === user.Name && MainHelpers_1.GetType(item) === 'user')) {
             return 'failed';
         }
