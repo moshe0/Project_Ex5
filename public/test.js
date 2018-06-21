@@ -1,15 +1,15 @@
 
 class User {
-    constructor(Id, Name, Age, Password) {
-        this._Id = Id;
-    }
+    constructor(_Id, _Name, _Age, _Password) {
+        this.Id = _Id;
+        this.Name = _Name;
+        this.Age = _Age;
+        this.Password = _Password;
 
-    get Id(){
-        return this._Id;
     }
 }
 
-var Users = [
+let Users = [
     new User(1,'Moshe', '11', 11 ),
     new User(2,'Raz', '22', 22 ),
     new User(3,'Yosef', '33', 33 ),
@@ -20,22 +20,8 @@ var Users = [
 ];
 
 
+let index = Users.findIndex(item => item.Name === 'Mosdsshe');
+console.log(index === 'undefined');
 
 
 
-function GetNextId(id){
-    let aa = Users.find(item => item.Id === id);
-    if(!aa)
-        return -1;
-    return aa;
-}
-
-console.log(GetType({"Members" : 5}));
-
-function GetType(Obj){
-    for(let propName in Obj) {
-        if(propName === 'Members')
-            return 'group';
-    }
-    return 'user';
-}

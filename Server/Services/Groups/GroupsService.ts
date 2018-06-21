@@ -133,8 +133,8 @@ function _AddUserToExistingGroupItem(user: User, node : Group, parentId : number
 
 export function DeleteUserFromGroup(userId : number, parentId : number){
     return new Promise((resolve) => {
-        const userName = DB.Users.find(item => item.Id === userId);
-        const result = _DeleteUserFromGroup(userName, parentId);
+        const user = DB.Users.find(item => item.Id === userId);
+        const result = _DeleteUserFromGroup(user.Name, parentId);
         resolve(result);
     });
 }
@@ -147,8 +147,8 @@ function _DeleteUserFromGroup(userName : string, parentId : number){
 }
 function _DeleteUserFromGroupItem(userName : string, parentId : number, node : Group){
     if(node.Id === parentId) {
-        let index = node.Members.find(item => item.Id === userName && GetType(item) === 'user')
-        if (!index) {
+        let index = node.Members.findIndex(item => item.Name === userName && GetType(item) === 'user');
+        if (index === -1) {
             return 'failed';
         }
         node.Members.splice(index, 1);

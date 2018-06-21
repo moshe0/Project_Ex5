@@ -41,10 +41,12 @@ class TreeActions extends React.Component<{}, {}> {
         }
 
         console.log(MessageRes);
+        StateStore.FirstUse = 1;
         StateStore.getInstance().setMany({
-            'AllTree' : null,
+            'Data' : await appService.GetData(),
             'TreeSelected' : null
         });
+        StateStore.getInstance().set('AllTree', null);
     };
 
     OnFlatteningClick = () =>{

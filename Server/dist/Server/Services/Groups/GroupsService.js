@@ -119,14 +119,37 @@ function _AddUserToExistingGroupItem(user, node, parentId) {
     }
     return 'failed';
 }
-function DeleteUserFromGroup(userId, groupId) {
+function DeleteUserFromGroup(userId, parentId) {
     return new Promise((resolve) => {
-        const result = _DeleteUserFromGroup(userId, groupId);
+        const user = DB_1.DB.Users.find(item => item.Id === userId);
+        const result = _DeleteUserFromGroup(user.Name, parentId);
         resolve(result);
     });
 }
 exports.DeleteUserFromGroup = DeleteUserFromGroup;
-function _DeleteUserFromGroup(userId, groupId) {
-    return 'DeleteUserFromGroup';
+function _DeleteUserFromGroup(userName, parentId) {
+    for (let item of DB_1.DB.Groups) {
+        if (_DeleteUserFromGroupItem(userName, parentId, item) === 'succeeded')
+            return 'succeeded!!! user: ' + userName + ' deleted from group!!!';
+    }
+    return 'failed';
+}
+function _DeleteUserFromGroupItem(userName, parentId, node) {
+    if (node.Id === parentId) {
+        let index = node.Members.findIndex(item => item.Name === userName && MainHelpers_1.GetType(item) === 'user');
+        if (index === -1) {
+            return 'failed';
+        }
+        node.Members.splice(index, 1);
+        return DB_1.DB.writeFile('Groups');
+    }
+    for (let item of node.Members) {
+        if (MainHelpers_1.GetType(item) === 'user')
+            break;
+        let res = _DeleteUserFromGroupItem(userName, parentId, item);
+        if (res === 'succeeded')
+            return res;
+    }
+    return 'failed';
 }
 //# sourceMappingURL=GroupsService.js.map
