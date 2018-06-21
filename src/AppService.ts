@@ -1,4 +1,13 @@
-import {AddGroup, AddMessage, AddUser, GetGroups, GetMessages, GetSpecificUser, GetUsers} from "./ServiceApi";
+import {
+    AddGroup,
+    AddMessage,
+    AddUser,
+    AddUserToExistingGroup,
+    GetGroups,
+    GetMessages,
+    GetSpecificUser,
+    GetUsers
+} from "./ServiceApi";
 import {User} from "./Models/User";
 
 export class AppService {
@@ -74,9 +83,9 @@ export class AppService {
         }
     }
 
-    async AddGroup(group: any, newGroupName : string, id : string) {
+    async AddGroup(group: any, newGroupName : string, parentId : string) {
         try {
-            const ObjGroup = await AddGroup(group, newGroupName, id);
+            const ObjGroup = await AddGroup(group, newGroupName, parentId);
             console.log('AddGroup SUCCESSFUL');
             return ObjGroup;
         }
@@ -86,6 +95,17 @@ export class AppService {
         }
     }
 
+    async AddUserToExistingGroup(userName: string, parentId : string) {
+        try {
+            const ObjGroup = await AddUserToExistingGroup(userName, parentId);
+            console.log('AddUserToExistingGroup SUCCESSFUL');
+            return ObjGroup;
+        }
+        catch (e) {
+            console.log('AddUserToExistingGroup FAILD');
+            return null;
+        }
+    }
 
 
 

@@ -7,7 +7,7 @@ export async function GetGroups(req, res){
 }
 
 export async function AddGroup(req, res){
-    const result = await services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['id'].id);
+    const result = await services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['parentId'].parentId);
     res.json(result);
 }
 
@@ -24,7 +24,7 @@ export async function FlatteningGroup(req, res){
 
 
 export async function AddUserToExistingGroup(req, res){
-    const result = await services.GroupsService.AddUserToExistingGroup(req.body, req.params.id);
+    const result = await services.GroupsService.AddUserToExistingGroup(req.body['userName'].userName, req.body['parentId'].parentId);
     res.json(result);
 }
 

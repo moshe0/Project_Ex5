@@ -41,7 +41,8 @@ export function GetMessages(sender : any, receiver : any):Promise<any[]> {
         body: JSON.stringify({"sender" : {sender}, "receiver" : {receiver}}),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
-        console.log(res);
+        if(res.status === 400)
+            console.log(res.statusText);
         return res.json();
     });
 }
@@ -53,7 +54,6 @@ export function AddMessage(message : any):Promise<void> {
         body: JSON.stringify(message),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
-        console.log(res);
         return res.json();
     });
 }
@@ -65,29 +65,27 @@ export function AddUser(user : any):Promise<string> {
         body: JSON.stringify(user),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
-        console.log(res);
         return res.json();
     });
 }
 
-export function AddGroup(group: any, newGroupName : string, id : string):Promise<string> {
+export function AddGroup(group: any, newGroupName : string, parentId : string):Promise<string> {
     return fetch(basicUrl + '/groups/AddGroup', {
         method: 'POST',
-        body: JSON.stringify({"group" : {group}, "newGroupName" : {newGroupName}, "id" : {id}}),
+        body: JSON.stringify({"group" : {group}, "newGroupName" : {newGroupName}, "parentId" : {parentId}}),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
-        console.log(res);
         return res.json();
     });
 }
 
 
-
-
-
-
-
-
-
-
-
+export function AddUserToExistingGroup(userName: string, parentId : string):Promise<string> {
+    return fetch(basicUrl + '/groups/AddUserToExistingGroup', {
+        method: 'POST',
+        body: JSON.stringify({"userName" : {userName}, "parentId" : {parentId}}),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}

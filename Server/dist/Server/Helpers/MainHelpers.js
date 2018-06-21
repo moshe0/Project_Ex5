@@ -12,21 +12,21 @@ function GetNextId(obj) {
     return res;
 }
 exports.GetNextId = GetNextId;
-function GetGroupArrId(obj) {
+function _GetGroupArrId(obj) {
     let groupArr = [];
     groupArr.push({ "Id": obj.Id });
     for (let item of obj.Members) {
         if (GetType(item) === 'user')
             break;
-        groupArr = groupArr.concat(GetGroupArrId(item));
+        groupArr = groupArr.concat(_GetGroupArrId(item));
     }
     return groupArr;
 }
-exports.GetGroupArrId = GetGroupArrId;
+exports._GetGroupArrId = _GetGroupArrId;
 function GetGroupNextId(obj) {
     let groupArr = [];
     for (let item of obj) {
-        groupArr = groupArr.concat(GetGroupArrId(item));
+        groupArr = groupArr.concat(_GetGroupArrId(item));
     }
     return GetNextId(groupArr);
 }
@@ -45,4 +45,11 @@ function GetItems(Obj) {
     return Obj['Members'];
 }
 exports.GetItems = GetItems;
+function GetUserByID(users, id) {
+    let userRet = users.find(item => item.Id === id);
+    if (!userRet)
+        return null;
+    return userRet;
+}
+exports.GetUserByID = GetUserByID;
 //# sourceMappingURL=MainHelpers.js.map

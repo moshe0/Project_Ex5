@@ -323,10 +323,11 @@ export class InitTree {
         let indexPrev = 0, indexCurrent = 0;
         if (prevData.length > currentData.length) { // in case of Fletting or Delete
             while (indexPrev < prevData.length && indexCurrent < currentData.length) {
-                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText) {
-                    $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
-                    indexPrev++;
-                    indexCurrent++;
+                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText &&
+                    prevData[indexPrev].style.textIndent === currentData[indexCurrent].style.textIndent) {
+                        $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
+                        indexPrev++;
+                        indexCurrent++;
                 }
                 else
                     indexPrev++;
@@ -334,13 +335,22 @@ export class InitTree {
         }
         else if (prevData.length < currentData.length) { // in case of Add
             while (indexPrev < prevData.length && indexCurrent < currentData.length) {
-                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText) {
-                    $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
-                    indexPrev++;
+                console.log('prevData: ' + prevData[indexPrev].innerText);
+                console.log('currentData: ' + currentData[indexPrev].innerText);
+
+                if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText &&
+                    prevData[indexPrev].style.textIndent === currentData[indexCurrent].style.textIndent) {
+                        $(currentData[indexCurrent]).attr('class', prevData[indexPrev].classList);
+                        indexPrev++;
+                        indexCurrent++;
+                }
+                else {
+                    for(let i=1 ; !($(prevData[indexPrev - i]).hasClass('inFocus')) && (indexPrev - i) >= 0 ; i++) {
+                        if (prevData[indexPrev - i].style.textIndent === currentData[indexCurrent].style.textIndent)
+                            $(currentData[indexCurrent]).attr('class', prevData[indexPrev - i].classList);
+                    }
                     indexCurrent++;
                 }
-                else
-                    indexCurrent++;
             }
         }
     }

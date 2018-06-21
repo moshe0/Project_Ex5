@@ -60,7 +60,7 @@ class Add extends React.Component<IAddProps, IAddState> {
             MessageRes = await appService.AddGroup(groupToSend, '', '');
         }
         else if(this.state.selectedType === 'Add existing user to marked group'){
-            // AddUserToExistingGroup server
+            MessageRes = await appService.AddUserToExistingGroup(this.state.userNameG, StateStore.getInstance().get('TreeSelected').Id);
 
         }
         else{

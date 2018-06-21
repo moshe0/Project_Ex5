@@ -13,32 +13,39 @@ exports.GetGroups = GetGroups;
 function _GetGroups() {
     return DB_1.DB.Groups;
 }
-function AddGroup(group, newGroupName, id) {
+function AddGroup(group, newGroupName, parentId) {
     return new Promise((resolve) => {
         let result = '';
         group.Id = MainHelpers_1.GetGroupNextId(DB_1.DB.Groups);
-        if (id === '') {
+        if (parentId === '') {
             DB_1.DB.Groups.push(group);
             result = DB_1.DB.writeFile('Groups');
             if (result === 'succeeded')
-                result = 'succeeded!!! group: ' + group.Name + ' added!!!';
+                resolve('succeeded!!! group: ' + group.Name + ' added!!!');
+            resolve('failed');
         }
+        if (newGroupName === group.Name && newGroupName !== '')
+            resolve('failed');
         else
-            result = _AddGroup(group, newGroupName, id, null);
+            result = _AddGroup(group, newGroupName, parentId, null);
         resolve(result);
     });
 }
 exports.AddGroup = AddGroup;
-function _AddGroup(group, newGroupName, id, parent) {
+function _AddGroup(group, newGroupName, parentId, parent) {
     for (let item of DB_1.DB.Groups) {
-        if (_AddGroupItem(group, newGroupName, id, item, null) === 'succeeded')
+        if (_AddGroupItem(group, newGroupName, parentId, item, null) === 'succeeded')
             return 'succeeded!!! group: ' + group.Name + ' added!!!';
     }
     return 'failed';
 }
-function _AddGroupItem(group, newGroupName, id, node, parent) {
-    if (node.Id === parseInt(id)) {
+function _AddGroupItem(group, newGroupName, parentId, node, parent) {
+    if (node.Id === parseInt(parentId)) {
+        if (node.Members.find(item => item.Name === group.Name && MainHelpers_1.GetType(item) === 'group'))
+            return 'failed';
         if (newGroupName !== '') {
+            if (node.Members.find(item => item.Name === group.tmpMembers && MainHelpers_1.GetType(item) === 'group'))
+                return 'failed';
             const tmpMembers = node.Members.slice();
             node.Members = [];
             node.Members.push(group);
@@ -47,9 +54,6 @@ function _AddGroupItem(group, newGroupName, id, node, parent) {
             return DB_1.DB.writeFile('Groups');
         }
         else {
-            if (node.Members.find(item => item.Name === group.Name && MainHelpers_1.GetType(item) === 'group')) {
-                return 'failed';
-            }
             node.Members.push(group);
             return DB_1.DB.writeFile('Groups');
         }
@@ -57,7 +61,7 @@ function _AddGroupItem(group, newGroupName, id, node, parent) {
     for (let item of node.Members) {
         if (MainHelpers_1.GetType(item) === 'user')
             break;
-        let res = _AddGroupItem(group, newGroupName, id, item, node);
+        let res = _AddGroupItem(group, newGroupName, parentId, item, node);
         if (res === 'succeeded')
             return res;
     }
@@ -83,15 +87,37 @@ exports.FlatteningGroup = FlatteningGroup;
 function _FlatteningGroup(id) {
     return 'FlatteningGroup';
 }
-function AddUserToExistingGroup(user, groupId) {
+function AddUserToExistingGroup(userName, parentId) {
     return new Promise((resolve) => {
-        const result = _AddUserToExistingGroup(user, groupId);
+        let user = DB_1.DB.Users.find(item => item.Name === userName);
+        const result = _AddUserToExistingGroup(user, parentId);
         resolve(result);
     });
 }
 exports.AddUserToExistingGroup = AddUserToExistingGroup;
-function _AddUserToExistingGroup(user, groupId) {
-    return 'AddUserToExistingGroup';
+function _AddUserToExistingGroup(user, parentId) {
+    for (let item of DB_1.DB.Groups) {
+        if (_AddUserToExistingGroupItem(user, item, parentId) === 'succeeded')
+            return 'succeeded!!! user: ' + user.Name + ' added to group!!!';
+    }
+    return 'failed';
+}
+function _AddUserToExistingGroupItem(user, node, parentId) {
+    if (node.Id === parseInt(parentId)) {
+        if (node.Members.find(item => item.Name === user.Name && MainHelpers_1.GetType(item) === 'user')) {
+            return 'failed';
+        }
+        node.Members.push(user);
+        return DB_1.DB.writeFile('Groups');
+    }
+    for (let item of node.Members) {
+        if (MainHelpers_1.GetType(item) === 'user')
+            break;
+        let res = _AddUserToExistingGroupItem(user, item, parentId);
+        if (res === 'succeeded')
+            return res;
+    }
+    return 'failed';
 }
 function DeleteUserFromGroup(userId, groupId) {
     return new Promise((resolve) => {

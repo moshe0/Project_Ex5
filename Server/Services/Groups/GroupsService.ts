@@ -3,6 +3,7 @@ import UserRouter from "../../Routes/UsersRouter";
 import {DB} from "../../DB/DB";
 import {GetGroupNextId, GetNextId, GetType} from "../../Helpers/MainHelpers";
 import {Group} from "../../Models/Group";
+import {User} from "../../Models/User";
 
 export function GetGroups(){
     return new Promise((resolve) => {
@@ -15,32 +16,38 @@ function _GetGroups(){
 }
 
 
-export function AddGroup(group: any, newGroupName : string, id : string){
+export function AddGroup(group: any, newGroupName : string, parentId : string){
     return new Promise((resolve) => {
-
         let result = '';
         group.Id = GetGroupNextId(DB.Groups);
-        if(id === ''){
+        if(parentId === ''){
             DB.Groups.push(group);
             result = DB.writeFile('Groups');
             if(result === 'succeeded')
-                result = 'succeeded!!! group: ' + group.Name + ' added!!!';
+                resolve('succeeded!!! group: ' + group.Name + ' added!!!');
+            resolve('failed');
         }
+        if(newGroupName === group.Name && newGroupName !== '')
+            resolve('failed');
         else
-            result = _AddGroup(group, newGroupName, id, null);
+            result = _AddGroup(group, newGroupName, parentId, null);
         resolve(result);
     });
 }
-function _AddGroup(group: any, newGroupName : string, id : string, parent ?: Group){
+function _AddGroup(group: any, newGroupName : string, parentId : string, parent ?: Group){
     for(let item of DB.Groups){
-        if(_AddGroupItem(group, newGroupName, id, item, null) === 'succeeded')
+        if(_AddGroupItem(group, newGroupName, parentId, item, null) === 'succeeded')
             return 'succeeded!!! group: ' + group.Name + ' added!!!';
     }
     return 'failed';
 }
-function _AddGroupItem(group: any, newGroupName : string, id : string, node : Group, parent ?: Group) : string{
-    if(node.Id === parseInt(id)) {
+function _AddGroupItem(group: any, newGroupName : string, parentId : string, node : Group, parent ?: Group) : string{
+    if(node.Id === parseInt(parentId)) {
+        if (node.Members.find(item => item.Name === group.Name && GetType(item) === 'group'))
+            return 'failed';
         if (newGroupName !== '') {
+            if (node.Members.find(item => item.Name === group.tmpMembers && GetType(item) === 'group'))
+                return 'failed';
             const tmpMembers = node.Members.slice();
             node.Members = [];
             node.Members.push(group);
@@ -49,10 +56,8 @@ function _AddGroupItem(group: any, newGroupName : string, id : string, node : Gr
             return DB.writeFile('Groups');
         }
 
+
         else {
-            if (node.Members.find(item => item.Name === group.Name && GetType(item) === 'group')) {
-                return 'failed';
-            }
             node.Members.push(group);
             return DB.writeFile('Groups');
         }
@@ -60,7 +65,7 @@ function _AddGroupItem(group: any, newGroupName : string, id : string, node : Gr
     for(let item of node.Members) {
         if(GetType(item) === 'user')
             break;
-        let res = _AddGroupItem(group, newGroupName, id, item, node);
+        let res = _AddGroupItem(group, newGroupName, parentId, item, node);
         if(res === 'succeeded')
             return res;
     }
@@ -93,14 +98,36 @@ function _FlatteningGroup(id: number){
 
 
 
-export function AddUserToExistingGroup(user : any, groupId : number){
+export function AddUserToExistingGroup(userName: string, parentId : string){
     return new Promise((resolve) => {
-        const result = _AddUserToExistingGroup(user, groupId);
+        let user = DB.Users.find(item => item.Name === userName);
+        const result = _AddUserToExistingGroup(user, parentId);
         resolve(result);
     });
 }
-function _AddUserToExistingGroup(user : any, groupId : number){
-    return 'AddUserToExistingGroup';
+function _AddUserToExistingGroup(user: User, parentId : string){
+    for(let item of DB.Groups){
+        if(_AddUserToExistingGroupItem(user, item, parentId) === 'succeeded')
+            return 'succeeded!!! user: ' + user.Name + ' added to group!!!';
+    }
+    return 'failed';
+}
+function _AddUserToExistingGroupItem(user: User, node : Group, parentId : string){
+    if(node.Id === parseInt(parentId)) {
+        if (node.Members.find(item => item.Name === user.Name && GetType(item) === 'user')) {
+            return 'failed';
+        }
+        node.Members.push(user);
+        return DB.writeFile('Groups');
+    }
+    for(let item of node.Members) {
+        if(GetType(item) === 'user')
+            break;
+        let res = _AddUserToExistingGroupItem(user, item, parentId);
+        if(res === 'succeeded')
+            return res;
+    }
+    return 'failed';
 }
 
 

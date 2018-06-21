@@ -18,7 +18,7 @@ function GetGroups(req, res) {
 exports.GetGroups = GetGroups;
 function AddGroup(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['id'].id);
+        const result = yield services.GroupsService.AddGroup(req.body['group'].group, req.body['newGroupName'].newGroupName, req.body['parentId'].parentId);
         res.json(result);
     });
 }
@@ -39,7 +39,7 @@ function FlatteningGroup(req, res) {
 exports.FlatteningGroup = FlatteningGroup;
 function AddUserToExistingGroup(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.GroupsService.AddUserToExistingGroup(req.body, req.params.id);
+        const result = yield services.GroupsService.AddUserToExistingGroup(req.body['userName'].userName, req.body['parentId'].parentId);
         res.json(result);
     });
 }

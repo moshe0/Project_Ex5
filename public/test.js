@@ -1,4 +1,3 @@
-/*import {DB} from "../Server/DB/DB";
 
 class User {
     constructor(Id, Name, Age, Password) {
@@ -22,22 +21,21 @@ var Users = [
 
 
 
-console.log(GetNextId({'Moshe', 11}));
 
 
-function GetNextId(user){
-    console.log(user.userName, user.userPassword);
-    let aa = DB.Users.map(item => item.Name === user.name);
+function GetNextId(id){
+    let aa = Users.find(item => item.Id === id);
+    if(!aa)
+        return -1;
     return aa;
-}*/
+}
 
+console.log(GetType({"Members" : 5}));
 
-a1 = ['a', 'b', 'c'];
-a2 = ['a', 'c', 'b'];
-
-console.log(arraysEqual(a1, a2));
-
-function arraysEqual(a1,a2) {
-    /* WARNING: arrays must not contain {objects} or behavior may be undefined */
-    return JSON.stringify(a1)==JSON.stringify(a2);
+function GetType(Obj){
+    for(let propName in Obj) {
+        if(propName === 'Members')
+            return 'group';
+    }
+    return 'user';
 }
