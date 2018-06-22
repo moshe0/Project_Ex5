@@ -21,14 +21,10 @@ export function AddGroup(group: any, newGroupName : string, parentId : number){
         let result = '';
         group.Id = GetGroupNextId(DB.Groups);
         if(parentId === -1){
-            DB.Groups.push(group);
-            result = DB.writeFile('Groups');
-            if(result === 'succeeded')
-                resolve('succeeded!!! group: ' + group.Name + ' added!!!');
-            resolve('failed');
+            result = _AddGroupDirectSon(group, parentId);
         }
-        if(newGroupName === group.Name && newGroupName !== '')
-            resolve('failed');
+        else if(newGroupName === group.Name && newGroupName !== '')
+            result = 'failed';
         else
             result = _AddGroup(group, newGroupName, parentId, null);
         resolve(result);
@@ -71,11 +67,29 @@ function _AddGroupItem(group: any, newGroupName : string, parentId : number, nod
     }
     return 'failed';
 }
+function _AddGroupDirectSon(group: any, parentId : number){
+    let index = DB.Groups.findIndex(item => item.Name === group.Name);
+    if(index > -1)
+        return 'The group \'' + group.Name + '\' already exist';
+    DB.Groups.push(group);
+    let result = DB.writeFile('Groups');
+    if(result === 'succeeded')
+        return 'succeeded!!! group: ' + group.Name + ' added!!!';
+    return 'failed';
+}
+
+
+
 
 export function DeleteGroup(id: number, parentId : number){
     return new Promise((resolve) => {
-        const result = _DeleteGroup(id, parentId);
+        let result = '';
+        if(parentId === -1)
+            result = _DeleteGroupDirectSon(id, parentId);
+        else
+            result = _DeleteGroup(id, parentId);
         resolve(result);
+
     });
 }
 function _DeleteGroup(id: number, parentId : number){
@@ -100,9 +114,10 @@ function _DeleteGroupItem(id : number, parentId : number, node : Group){
         for(let elem of node.Members[index].Members) {
             let indexName = node.Members.findIndex(item => item.Name === elem.Name && GetType(item) === 'group' && item.Name !== node.Members[index].Name);
             if (indexName > -1)
-                return 'failed!!! same name in one of members in \'' + node.Members[index].Name + '\' and in is parent';
+                return 'failed!!! same name in one of members in \'' + node.Members[index].Name + '\' and in is brothers';
         }
-        node.Members.splice(index, 1, ...node.Members[index]);
+
+        node.Members.splice(index, 1, ...node.Members[index].Members);
         return DB.writeFile('Groups');
     }
     for(let item of node.Members) {
@@ -113,6 +128,25 @@ function _DeleteGroupItem(id : number, parentId : number, node : Group){
             return res;
     }
     return 'failed';
+}
+function _DeleteGroupDirectSon(id : number, parentId : number){
+    let index = DB.Groups.findIndex(item => item.Id === id && GetType(item) === 'group');
+    if (index === -1)
+        return 'failed item selected not found';
+
+    if(DB.Groups[index].Members.length === 0 || GetType(DB.Groups[index].Members[0]) === 'user') {
+        DB.Groups.splice(index, 1);
+        return DB.writeFile('Groups');
+    }
+
+    for(let elem of DB.Groups[index].Members) {
+        let indexName = DB.Groups.findIndex(item => item.Name === elem.Name && GetType(item) === 'group' && item.Name !== DB.Groups[index].Name);
+        if (indexName > -1)
+            return 'failed!!! same name in one of members in \'' + DB.Groups[index].Name + '\' and in is brothers';
+    }
+
+    DB.Groups.splice(index, 1, ...DB.Groups[index].Members);
+    return DB.writeFile('Groups');
 }
 
 

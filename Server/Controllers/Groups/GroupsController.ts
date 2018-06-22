@@ -12,7 +12,7 @@ export async function AddGroup(req, res){
 }
 
 export async function DeleteGroup(req, res){
-    const result = await services.GroupsService.DeleteGroup(req.body['userId'].userId, req.body['parentId'].parentId);
+    const result = await services.GroupsService.DeleteGroup(req.body['id'].id, req.body['parentId'].parentId);
     res.json(result);
 }
 
