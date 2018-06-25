@@ -19,15 +19,27 @@ function _AddUser(user) {
     else
         return 'failed!!! The user is already exists!!!';
 }
-function DeleteUser(id) {
+function DeleteUser(userId) {
     return new Promise((resolve) => {
-        const result = _DeleteUser(id);
+        const result = _DeleteUser(userId);
         resolve(result);
     });
 }
 exports.DeleteUser = DeleteUser;
-function _DeleteUser(id) {
-    return 'DeleteUser';
+function _DeleteUser(userId) {
+    let index = DB_1.DB.Users.findIndex(item => item.Id === userId);
+    if (index === -1)
+        return 'failed';
+    let userName = DB_1.DB.Users[index].Name;
+    DB_1.DB.Users.splice(index, 1);
+    let result = DB_1.DB.writeFile('Users');
+    if (result === 'succeeded') {
+        result = DB_1.DB.writeFile('Groups');
+        if (result === 'succeeded')
+            return 'succeeded!!! user: ' + userName + ' deleted!!!';
+        return 'failed';
+    }
+    return 'failed';
 }
 function UpdateUser(user) {
     return new Promise((resolve) => {

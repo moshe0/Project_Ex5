@@ -32,18 +32,15 @@ function _DeleteUser(userId: number){
     if(index === -1)
         return 'failed';
     let userName = DB.Users[index].Name;
-    DB.Users.slice(index, 1);
+    DB.Users.splice(index, 1);
     let result = DB.writeFile('Users');
     if(result === 'succeeded') {
-            DB.Groups = DB.GetGroupsWithFullUser(DB.Groups);
-            result = DB.writeFile('Groups');
-            if(result === 'succeeded')
-                return 'succeeded!!! user: ' + userName + ' deleted!!!';
-            return 'failed';
-        }
+        result = DB.writeFile('Groups');
+        if (result === 'succeeded')
+            return 'succeeded!!! user: ' + userName + ' deleted!!!';
+        return 'failed';
+    }
     return 'failed';
-
-
 }
 
 

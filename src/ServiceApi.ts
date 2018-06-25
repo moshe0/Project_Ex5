@@ -137,7 +137,7 @@ export function UpdateUser(user : any):Promise<string> {
 export function DeleteUser(userId : any):Promise<string> {
     return fetch(basicUrl + '/users/DeleteUser', {
         method: 'DELETE',
-        body: JSON.stringify(userId),
+        body: JSON.stringify({"userId" : {userId}}),
         headers: {'content-type': 'application/json'}
     }).then((res) => {
         return res.json();

@@ -31,8 +31,6 @@ class TreeActions extends React.Component<{}, {}> {
 
         if (type === 'User without parent'){ // DeleteUser server
             MessageRes = await appService.DeleteUser(StateStore.getInstance().get('TreeSelected').Id);
-
-
         }
         else if (type === 'User in a parent'){ // DeleteUserFromGroup server
             MessageRes = await appService.DeleteUserFromGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);

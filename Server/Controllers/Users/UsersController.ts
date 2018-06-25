@@ -8,7 +8,7 @@ export async function AddUser(req, res){
 }
 
 export async function DeleteUser(req, res){
-    const result = await services.UsersService.DeleteUser(req.body);
+    const result = await services.UsersService.DeleteUser(req.body['userId'].userId);
     res.json(result);
 }
 

@@ -18,7 +18,7 @@ function AddUser(req, res) {
 exports.AddUser = AddUser;
 function DeleteUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.UsersService.DeleteUser(req.body);
+        const result = yield services.UsersService.DeleteUser(req.body['userId'].userId);
         res.json(result);
     });
 }

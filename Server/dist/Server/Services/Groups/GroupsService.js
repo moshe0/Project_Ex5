@@ -11,7 +11,6 @@ function GetGroups() {
 }
 exports.GetGroups = GetGroups;
 function _GetGroups() {
-    DB_1.DB.Groups = DB_1.DB.readFile("Groups");
     return DB_1.DB.Groups;
 }
 function AddGroup(group, newGroupName, parentId) {

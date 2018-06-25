@@ -27,6 +27,7 @@ class DataBase {
                 });
                 break;
             case 'Groups':
+                this.Groups = this.GetGroupsWithOnlyIdOfUser(this.Groups);
                 fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Groups), function (err) {
                     if (!!err)
                         return "failed";
@@ -35,6 +36,7 @@ class DataBase {
                         return "succeeded";
                     // res.send("succeeded");
                 });
+                this.Groups = this.GetGroupsWithFullUser(this.Groups);
                 break;
             case 'Messages':
                 fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Messages), function (err) {
@@ -56,10 +58,16 @@ class DataBase {
         return obj;
     }
     _GetGroupsWithOnlyIdOfUser(obj) {
-        for (let item of obj.Members) {
-            if (MainHelpers_1.GetType(item) === 'user')
-                item = { "Id": item.Id };
-            this._GetGroupsWithOnlyIdOfUser(item);
+        for (let i = 0; i < obj.Members.length; i++) {
+            if (MainHelpers_1.GetType(obj.Members[i]) === 'user') {
+                let index = this.Users.findIndex(user => user.Id === obj.Members[i].Id);
+                if (index === -1)
+                    obj.Members.splice(i--, 1);
+                else
+                    obj.Members[i] = { "Id": this.Users[index].Id };
+            }
+            else
+                this._GetGroupsWithOnlyIdOfUser(obj.Members[i]);
         }
         return obj;
     }
@@ -70,14 +78,16 @@ class DataBase {
         return obj;
     }
     _GetGroupsWithFullUser(obj) {
-        for (let i; i < obj.Members.length; i++) {
+        for (let i = 0; i < obj.Members.length; i++) {
             if (MainHelpers_1.GetType(obj.Members[i]) === 'user') {
-                let index = exports.DB.Users.find(user => user.Id = obj.Members[i].Id);
+                let index = this.Users.findIndex(user => user.Id === obj.Members[i].Id);
                 if (index === -1)
-                    obj.Members.slice(i, 1);
-                obj.Members[i] = exports.DB.Users[index];
+                    obj.Members.splice(i--, 1);
+                else
+                    obj.Members[i] = Object.assign({}, this.Users[index]);
             }
-            this._GetGroupsWithOnlyIdOfUser(obj.Members[i]);
+            else
+                this._GetGroupsWithFullUser(obj.Members[i]);
         }
         return obj;
     }
