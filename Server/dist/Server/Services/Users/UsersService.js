@@ -29,15 +29,21 @@ exports.DeleteUser = DeleteUser;
 function _DeleteUser(id) {
     return 'DeleteUser';
 }
-function UpdateUser(id) {
+function UpdateUser(user) {
     return new Promise((resolve) => {
-        const result = _UpdateUser(id);
+        const result = _UpdateUser(user);
         resolve(result);
     });
 }
 exports.UpdateUser = UpdateUser;
-function _UpdateUser(id) {
-    return 'UpdateUser';
+function _UpdateUser(user) {
+    let index = DB_1.DB.Users.findIndex(item => item.Id === user.Id);
+    DB_1.DB.Users[index].Password = user.Password;
+    DB_1.DB.Users[index].Age = user.Age;
+    let result = DB_1.DB.writeFile('Users');
+    if (result === 'succeeded')
+        return 'succeeded!!! user: ' + user.Name + ' updated!!!';
+    return 'failed';
 }
 function GetUsers() {
     return new Promise((resolve) => {

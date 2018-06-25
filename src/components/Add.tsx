@@ -159,6 +159,9 @@ class Add extends React.Component<IAddProps, IAddState> {
 
     public AddRender =()=>(this.state.MessageResolve.startsWith('succeeded')? <Redirect to={{pathname:'/'}}/>: true);
 
+    public Cancel = async() =>{
+        StateStore.getInstance().set('TreeSelected', null);
+    };
 
     public AddInteraction(){
         if(this.state.selectedType === 'New user'){
@@ -246,7 +249,7 @@ class Add extends React.Component<IAddProps, IAddState> {
                 {divSelected}
                 <Route path='/Add' render={this.AddRender}/>
                 <Link to='/Add'><button style={this.state.canAdd ? styles.button : styles.buttonDisabled} disabled={!this.state.canAdd} onClick={this.Add}>Add</button></Link>
-                <Link to='/'><button style={styles.button}>Cancel</button></Link>
+                <Link to='/'><button style={styles.button} onClick={this.Cancel}>Cancel</button></Link>
             </Modal>
         );
     }

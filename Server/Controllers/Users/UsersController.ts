@@ -8,12 +8,12 @@ export async function AddUser(req, res){
 }
 
 export async function DeleteUser(req, res){
-    const result = await services.UsersService.DeleteUser(req.params.id);
+    const result = await services.UsersService.DeleteUser(req.body);
     res.json(result);
 }
 
 export async function UpdateUser(req, res){
-    const result = await services.UsersService.UpdateUser(req.params.id);
+    const result = await services.UsersService.UpdateUser(req.body);
     res.json(result);
 }
 

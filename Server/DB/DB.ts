@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import {User} from "../Models/User";
 import {Group} from "../Models/Group";
 import {Message} from "../Models/Message";
+import {GetType} from "../Helpers/MainHelpers";
 
 class DataBase {
     public Users : any[];
@@ -16,7 +17,9 @@ class DataBase {
 
     readFile(fileName: string) {
         const data = fs.readFileSync(`${__dirname}\\${fileName}Data.json`).toString();
-        return JSON.parse(data);
+        if(fileName != "Groups")
+            return JSON.parse(data);
+        return this.GetGroupsWithFullUser(JSON.parse(data));
     }
 
     writeFile(fileName: string) : string {
@@ -32,6 +35,7 @@ class DataBase {
                 });
             break;
             case 'Groups':
+                this.Groups = this.GetGroupsWithOnlyIdOfUser(this.Groups);
                 fs.writeFile(`${__dirname}\\${fileName}Data.json`, JSON.stringify(this.Groups), function(err) {
                     if (!!err)
                         return "failed";
@@ -53,6 +57,41 @@ class DataBase {
                 break;
         }
         return "succeeded";
+    }
+
+
+    GetGroupsWithOnlyIdOfUser (obj : Group[]){
+        for(let item of obj){
+            this._GetGroupsWithOnlyIdOfUser(item);
+        }
+        return obj;
+    }
+    _GetGroupsWithOnlyIdOfUser (obj : Group){
+        for(let item of obj.Members) {
+            if(GetType(item) === 'user')
+                item = {"Id" : item.Id};
+            this._GetGroupsWithOnlyIdOfUser(item);
+        }
+        return obj;
+    }
+
+    GetGroupsWithFullUser(obj : Group[]){
+        for(let item of obj){
+            this._GetGroupsWithFullUser(item);
+        }
+        return obj;
+    }
+    _GetGroupsWithFullUser(obj : Group){
+        for(let i ; i<obj.Members.length ; i++) {
+            if(GetType(obj.Members[i]) === 'user') {
+                let index = DB.Users.find(user => user.Id = obj.Members[i].Id);
+                if(index === -1)
+                    obj.Members.slice(i, 1);
+                obj.Members[i] = DB.Users[index];
+            }
+            this._GetGroupsWithOnlyIdOfUser(obj.Members[i]);
+        }
+        return obj;
     }
 }
 

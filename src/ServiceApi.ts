@@ -121,3 +121,30 @@ export function DeleteGroup(id: number, parentId : number):Promise<string> {
 }
 
 
+
+export function UpdateUser(user : any):Promise<string> {
+    return fetch(basicUrl + '/users/UpdateUser', {
+        method: 'PUT',
+        body: JSON.stringify(user),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}
+
+
+
+export function DeleteUser(userId : any):Promise<string> {
+    return fetch(basicUrl + '/users/DeleteUser', {
+        method: 'DELETE',
+        body: JSON.stringify(userId),
+        headers: {'content-type': 'application/json'}
+    }).then((res) => {
+        return res.json();
+    });
+}
+
+
+
+
+

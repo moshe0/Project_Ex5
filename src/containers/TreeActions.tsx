@@ -29,13 +29,15 @@ class TreeActions extends React.Component<{}, {}> {
 
         const type = InitTree.SelectedType();
 
-        if (type === 'User without parent'){
-            //DeleteUser server
+        if (type === 'User without parent'){ // DeleteUser server
+            MessageRes = await appService.DeleteUser(StateStore.getInstance().get('TreeSelected').Id);
+
+
         }
-        else if (type === 'User in a parent'){ //DeleteUserFromGroup server
+        else if (type === 'User in a parent'){ // DeleteUserFromGroup server
             MessageRes = await appService.DeleteUserFromGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
         }
-        else{ //DeleteGroup server
+        else{ // DeleteGroup server
             MessageRes = await appService.DeleteGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
         }
 

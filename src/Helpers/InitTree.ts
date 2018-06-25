@@ -334,7 +334,7 @@ export class InitTree {
         let prevData = StateStore.getInstance().get('AllTree');
         let currentData = $('ul li');
         let indexPrev = 0, indexCurrent = 0;
-        if (prevData.length > currentData.length) { // in case of Fletting or Delete
+        if (prevData.length >= currentData.length) { // in case of Fletting or Delete
             while (indexPrev < prevData.length && indexCurrent < currentData.length) {
                 if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText &&
                     prevData[indexPrev].style.textIndent === currentData[indexCurrent].style.textIndent) {

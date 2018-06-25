@@ -21,25 +21,46 @@ function _AddUser(user: any){
 }
 
 
-export function DeleteUser(id: number){
+export function DeleteUser(userId: number){
     return new Promise((resolve) => {
-        const result = _DeleteUser(id);
+        const result = _DeleteUser(userId);
         resolve(result);
     });
 }
-function _DeleteUser(id: number){
-    return 'DeleteUser';
+function _DeleteUser(userId: number){
+    let index = DB.Users.findIndex(item => item.Id === userId);
+    if(index === -1)
+        return 'failed';
+    let userName = DB.Users[index].Name;
+    DB.Users.slice(index, 1);
+    let result = DB.writeFile('Users');
+    if(result === 'succeeded') {
+            DB.Groups = DB.GetGroupsWithFullUser(DB.Groups);
+            result = DB.writeFile('Groups');
+            if(result === 'succeeded')
+                return 'succeeded!!! user: ' + userName + ' deleted!!!';
+            return 'failed';
+        }
+    return 'failed';
+
+
 }
 
 
-export function UpdateUser(id: number){
+export function UpdateUser(user: any){
     return new Promise((resolve) => {
-        const result = _UpdateUser(id);
+        const result = _UpdateUser(user);
         resolve(result);
     });
 }
-function _UpdateUser(id: number){
-    return 'UpdateUser';
+function _UpdateUser(user: any){
+    let index = DB.Users.findIndex(item => item.Id === user.Id);
+    DB.Users[index].Password = user.Password;
+    DB.Users[index].Age = user.Age;
+    let result = DB.writeFile('Users');
+    if(result === 'succeeded')
+        return 'succeeded!!! user: ' + user.Name + ' updated!!!';
+    return 'failed';
 }
 
 

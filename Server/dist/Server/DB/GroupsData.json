@@ -2,9 +2,9 @@
 	{"Id":1,"Name":"Friends","Members":[
 		{"Id":2,"Name":"Best Friends","Members":[
 			{"Id":3,"Name":"Good Friends","Members":[
-				{"Id":4,"Name":"Tommy","Password":"44,","Age":44},
-				{"Id":5,"Name":"Udi","Password":"55","Age":55},
-				{"Id":7,"Name":"Roni","Password":"77","Age":77}
+				{"Id":4},
+				{"Id":5},
+				{"Id":7}
 				]
 			}
 		  ]

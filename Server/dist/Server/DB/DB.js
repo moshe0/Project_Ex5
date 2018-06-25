@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
+const MainHelpers_1 = require("../Helpers/MainHelpers");
 class DataBase {
     constructor() {
         this.Users = this.readFile("Users");
@@ -9,7 +10,9 @@ class DataBase {
     }
     readFile(fileName) {
         const data = fs.readFileSync(`${__dirname}\\${fileName}Data.json`).toString();
-        return JSON.parse(data);
+        if (fileName != "Groups")
+            return JSON.parse(data);
+        return this.GetGroupsWithFullUser(JSON.parse(data));
     }
     writeFile(fileName) {
         switch (fileName) {
@@ -45,6 +48,38 @@ class DataBase {
                 break;
         }
         return "succeeded";
+    }
+    GetGroupsWithOnlyIdOfUser(obj) {
+        for (let item of obj) {
+            this._GetGroupsWithOnlyIdOfUser(item);
+        }
+        return obj;
+    }
+    _GetGroupsWithOnlyIdOfUser(obj) {
+        for (let item of obj.Members) {
+            if (MainHelpers_1.GetType(item) === 'user')
+                item = { "Id": item.Id };
+            this._GetGroupsWithOnlyIdOfUser(item);
+        }
+        return obj;
+    }
+    GetGroupsWithFullUser(obj) {
+        for (let item of obj) {
+            this._GetGroupsWithFullUser(item);
+        }
+        return obj;
+    }
+    _GetGroupsWithFullUser(obj) {
+        for (let i; i < obj.Members.length; i++) {
+            if (MainHelpers_1.GetType(obj.Members[i]) === 'user') {
+                let index = exports.DB.Users.find(user => user.Id = obj.Members[i].Id);
+                if (index === -1)
+                    obj.Members.slice(i, 1);
+                obj.Members[i] = exports.DB.Users[index];
+            }
+            this._GetGroupsWithOnlyIdOfUser(obj.Members[i]);
+        }
+        return obj;
     }
 }
 exports.DB = new DataBase();

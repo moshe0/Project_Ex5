@@ -18,14 +18,14 @@ function AddUser(req, res) {
 exports.AddUser = AddUser;
 function DeleteUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.UsersService.DeleteUser(req.params.id);
+        const result = yield services.UsersService.DeleteUser(req.body);
         res.json(result);
     });
 }
 exports.DeleteUser = DeleteUser;
 function UpdateUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield services.UsersService.UpdateUser(req.params.id);
+        const result = yield services.UsersService.UpdateUser(req.body);
         res.json(result);
     });
 }

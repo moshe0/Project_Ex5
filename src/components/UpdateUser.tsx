@@ -1,7 +1,10 @@
 import * as React from "react";
 import Modal from "../containers/Modal";
-import {Link} from "react-router-dom";
+import {Link, Redirect, Route} from "react-router-dom";
 import StateStore from "../state/StateStore";
+import {appService} from "../AppService";
+import {User} from "../Models/User";
+import {InitTree} from "../Helpers/InitTree";
 
 
 interface IUpdateState {
@@ -9,6 +12,7 @@ interface IUpdateState {
     userPassword : string,
     userAge : string,
     canUpdate : boolean
+    MessageResolve : string
 }
 
 class UpdateUser extends React.Component<{}, IUpdateState> {
@@ -16,25 +20,43 @@ class UpdateUser extends React.Component<{}, IUpdateState> {
         super(props);
 
         this.state = {
-            userName : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Name : '',
-            userPassword : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Password : '',
-            userAge : !!StateStore.getInstance().get('HoldReceiver') ? StateStore.getInstance().get('HoldReceiver').Age : '',
-            canUpdate : !!StateStore.getInstance().get('HoldReceiver')
+            userName : !!StateStore.getInstance().get('Receiver') ? StateStore.getInstance().get('Receiver').Name : '',
+            userPassword : !!StateStore.getInstance().get('Receiver') ? StateStore.getInstance().get('Receiver').Password : '',
+            userAge : !!StateStore.getInstance().get('Receiver') ? StateStore.getInstance().get('Receiver').Age : '',
+            canUpdate : !!StateStore.getInstance().get('Receiver'),
+            MessageResolve : ''
         };
     }
 
-    Update = () => {
-        // UpdateUser server
+    Update = async() => {
+        let MessageRes : string;
+
+        let userToSend = new User(InitTree.GetSelectedId(), this.state.userName, this.state.userPassword, parseInt(this.state.userAge));
+        MessageRes = await appService.UpdateUser(userToSend);
+
+
+        console.log(MessageRes);
+        if(MessageRes.startsWith('succeeded')){
+            StateStore.FirstUse = 1;
+            StateStore.getInstance().setMany({
+                'Data' : await appService.GetData(),
+                'TreeSelected' : null
+            });
+            StateStore.getInstance().set('AllTree', null);
+            InitTree.inFocusChanged();
+
+            this.setState({
+                MessageResolve : MessageRes
+            });
+        }
     };
 
-    Cancel = () => {
-        StateStore.getInstance().setMany({
-            'ModalState': false,
-            'Receiver': StateStore.getInstance().get('HoldReceiver'),
-            'HoldReceiver': null,
-        });
-    };
+    public UpdateRender =()=>(this.state.MessageResolve.startsWith('succeeded')? <Redirect to={{pathname:'/'}}/>: true);
 
+
+    public Cancel = async() =>{
+        StateStore.getInstance().set('TreeSelected', null);
+    };
 
     private UpdateInputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         let name = event.target.name;
@@ -76,7 +98,8 @@ class UpdateUser extends React.Component<{}, IUpdateState> {
                         <input style={styles.input} type="number" min="1" max="120" name="userAge" value={this.state.userAge} onChange={this.UpdateInputChangedHandler} />
                     </p>
                 </div>
-                <button style={this.state.canUpdate ? styles.button : styles.buttonDisabled} disabled={!this.state.canUpdate} onClick={this.Update}>Update</button>
+                <Route path='/UpdateUser' render={this.UpdateRender}/>
+                <Link to='/UpdateUser'><button style={this.state.canUpdate ? styles.button : styles.buttonDisabled} disabled={!this.state.canUpdate} onClick={this.Update}>Update</button></Link>
                 <Link to='/'><button style={styles.button} onClick={this.Cancel}>Cancel</button></Link>
             </Modal>
         );

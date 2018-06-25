@@ -2,11 +2,11 @@ import {
     AddGroup,
     AddMessage,
     AddUser,
-    AddUserToExistingGroup, DeleteGroup, DeleteUserFromGroup, FlatteningGroup,
+    AddUserToExistingGroup, DeleteGroup, DeleteUser, DeleteUserFromGroup, FlatteningGroup,
     GetGroups,
     GetMessages,
     GetSpecificUser,
-    GetUsers
+    GetUsers, UpdateUser
 } from "./ServiceApi";
 import {User} from "./Models/User";
 
@@ -143,7 +143,29 @@ export class AppService {
         }
     }
 
+    async UpdateUser(user : any) {
+        try {
+            const ObjUser= await UpdateUser(user);
+            console.log('UpdateUser SUCCESSFUL');
+            return ObjUser;
+        }
+        catch (e) {
+            console.log('UpdateUser FAILD');
+            return null;
+        }
+    }
 
+    async DeleteUser(userId : any) {
+        try {
+            const ObjUser= await DeleteUser(userId);
+            console.log('DeleteUser SUCCESSFUL');
+            return ObjUser;
+        }
+        catch (e) {
+            console.log('DeleteUser FAILD');
+            return null;
+        }
+    }
 
 
 }
