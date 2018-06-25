@@ -14,10 +14,10 @@ function _AddUser(user: any){
         user.Id = GetNextId(DB.Users);
         DB.Users.push(Object.assign({}, user));
         DB.writeFile('Users');
-        return 'succeeded!!! user: ' + user.Name + ' added!!!';
+        return 'succeeded! user \'' + user.Name + '\' added';
     }
     else
-        return 'failed!!! The user is already exists!!!';
+        return 'failed! The user is already exists';
 }
 
 
@@ -37,7 +37,7 @@ function _DeleteUser(userId: number){
     if(result === 'succeeded') {
         result = DB.writeFile('Groups');
         if (result === 'succeeded')
-            return 'succeeded!!! user: ' + userName + ' deleted!!!';
+            return 'succeeded! user \'' + userName + '\' deleted';
         return 'failed';
     }
     return 'failed';
@@ -56,7 +56,7 @@ function _UpdateUser(user: any){
     DB.Users[index].Age = user.Age;
     let result = DB.writeFile('Users');
     if(result === 'succeeded')
-        return 'succeeded!!! user: ' + user.Name + ' updated!!!';
+        return 'succeeded! user \'' + user.Name + '\' updated';
     return 'failed';
 }
 
@@ -84,7 +84,7 @@ function _GetSpecificUser(user){
 
 
 function _UserIndexOf(userArray ,userName){
-    for(var i=0 ; i<userArray.length ; i++){
+    for(let i=0 ; i<userArray.length ; i++){
         if(userArray[i].Name === userName){
             return i;
         }

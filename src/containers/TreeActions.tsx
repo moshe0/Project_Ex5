@@ -40,13 +40,16 @@ class TreeActions extends React.Component<{}, {}> {
         }
 
         console.log(MessageRes);
-        StateStore.FirstUse = 1;
-        StateStore.getInstance().setMany({
-            'Data' : await appService.GetData(),
-            'Receiver': null,
-            'TreeSelected' : null
-        });
-        StateStore.getInstance().set('AllTree', null);
+
+        if(MessageRes.startsWith('succeeded')){
+            StateStore.FirstUse = 1;
+            StateStore.getInstance().setMany({
+                'Data' : await appService.GetData(),
+                'TreeSelected' : null
+            });
+            StateStore.getInstance().set('AllTree', null);
+        }
+        alert(MessageRes);
     };
 
 
@@ -60,13 +63,15 @@ class TreeActions extends React.Component<{}, {}> {
         MessageRes = await appService.FlatteningGroup(StateStore.getInstance().get('TreeSelected').Id, StateStore.getInstance().get('TreeSelected').ParentId);
 
         console.log(MessageRes);
-        StateStore.FirstUse = 1;
-        StateStore.getInstance().setMany({
-            'Data' : await appService.GetData(),
-            'Receiver': null,
-            'TreeSelected' : null
-        });
-        StateStore.getInstance().set('AllTree', null);
+        if(MessageRes.startsWith('succeeded')){
+            StateStore.FirstUse = 1;
+            StateStore.getInstance().setMany({
+                'Data' : await appService.GetData(),
+                'TreeSelected' : null
+            });
+            StateStore.getInstance().set('AllTree', null);
+        }
+        alert(MessageRes);
     };
 
     public render() {

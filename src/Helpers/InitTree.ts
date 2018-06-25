@@ -101,7 +101,6 @@ export class InitTree {
 
         $(this).addClass('inFocus');
         InitTree.inFocusChanged();
-        console.log(InitTree.SelectedType());
     }
 
     static inFocusChanged() {
@@ -284,8 +283,6 @@ export class InitTree {
         let itemParent = itemFocused.data('parent');
         if (!$(itemParent).data('id'))
             return -1;
-        console.log($(itemParent).data('id'));
-        console.log(typeof ($(itemParent).data('id')));
         return $(itemParent).data('id');
     }
 
@@ -348,8 +345,6 @@ export class InitTree {
         }
         else if (prevData.length < currentData.length) { // in case of Add
             while (indexPrev < prevData.length && indexCurrent < currentData.length) {
-                console.log('prevData: ' + prevData[indexPrev].innerText);
-                console.log('currentData: ' + currentData[indexPrev].innerText);
 
                 if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText &&
                     prevData[indexPrev].style.textIndent === currentData[indexCurrent].style.textIndent) {
@@ -367,24 +362,4 @@ export class InitTree {
             }
         }
     }
-
-    /*
-    static SetItemToFocus(obj : TreeSelectedItem){
-        if(!obj)
-            return;
-        let lis = $('ul li');
-
-
-        for(let item of lis) {
-            if (GetType($(item)) === obj.SelectedType &&
-                $(item).data('id') === obj.Id &&
-                InitTree.isEqualArrayPath(InitTree.ArrayPath($(item)), obj.SelectedItemArrayPath))
-                $(item).addClass('.inFocus');
-        }
-    }
-
-    static isEqualArrayPath(path1 , path2) : boolean{
-        return JSON.stringify(path1)==JSON.stringify(path2)
-    }
-    */
 }

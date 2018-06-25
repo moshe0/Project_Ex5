@@ -14,10 +14,10 @@ function _AddUser(user) {
         user.Id = MainHelpers_1.GetNextId(DB_1.DB.Users);
         DB_1.DB.Users.push(Object.assign({}, user));
         DB_1.DB.writeFile('Users');
-        return 'succeeded!!! user: ' + user.Name + ' added!!!';
+        return 'succeeded! user \'' + user.Name + '\' added';
     }
     else
-        return 'failed!!! The user is already exists!!!';
+        return 'failed! The user is already exists';
 }
 function DeleteUser(userId) {
     return new Promise((resolve) => {
@@ -36,7 +36,7 @@ function _DeleteUser(userId) {
     if (result === 'succeeded') {
         result = DB_1.DB.writeFile('Groups');
         if (result === 'succeeded')
-            return 'succeeded!!! user: ' + userName + ' deleted!!!';
+            return 'succeeded! user \'' + userName + '\' deleted';
         return 'failed';
     }
     return 'failed';
@@ -54,7 +54,7 @@ function _UpdateUser(user) {
     DB_1.DB.Users[index].Age = user.Age;
     let result = DB_1.DB.writeFile('Users');
     if (result === 'succeeded')
-        return 'succeeded!!! user: ' + user.Name + ' updated!!!';
+        return 'succeeded! user \'' + user.Name + '\' updated';
     return 'failed';
 }
 function GetUsers() {
@@ -78,7 +78,7 @@ function _GetSpecificUser(user) {
     return DB_1.DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
 }
 function _UserIndexOf(userArray, userName) {
-    for (var i = 0; i < userArray.length; i++) {
+    for (let i = 0; i < userArray.length; i++) {
         if (userArray[i].Name === userName) {
             return i;
         }

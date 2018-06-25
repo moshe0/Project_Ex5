@@ -82,11 +82,11 @@ class Add extends React.Component<IAddProps, IAddState> {
                 'TreeSelected' : null
             });
             StateStore.getInstance().set('AllTree', null);
-
-            this.setState({
-                MessageResolve : MessageRes
-            });
         }
+
+        this.setState({
+            MessageResolve : MessageRes
+        });
     };
 
 
@@ -153,6 +153,7 @@ class Add extends React.Component<IAddProps, IAddState> {
             groupNameG : '',
             groupNameU : '',
             newGroupName : '',
+            MessageResolve : '',
             canAdd : false
         });
     };
@@ -247,9 +248,14 @@ class Add extends React.Component<IAddProps, IAddState> {
                     </span>
                 </div>
                 {divSelected}
-                <Route path='/Add' render={this.AddRender}/>
-                <Link to='/Add'><button style={this.state.canAdd ? styles.button : styles.buttonDisabled} disabled={!this.state.canAdd} onClick={this.Add}>Add</button></Link>
-                <Link to='/'><button style={styles.button} onClick={this.Cancel}>Cancel</button></Link>
+                <p>
+                    <Route path='/Add' render={this.AddRender}/>
+                    <Link to='/Add'><button style={this.state.canAdd ? styles.button : styles.buttonDisabled} disabled={!this.state.canAdd} onClick={this.Add}>Add</button></Link>
+                    <Link to='/'><button style={styles.button} onClick={this.Cancel}>Cancel</button></Link>
+                </p>
+                <p>
+                    <label style={styles.inputErr}>{this.state.MessageResolve}</label>
+                </p>
             </Modal>
         );
     }
@@ -273,6 +279,14 @@ const styles: { [key: string]: React.CSSProperties } = {
         width: "100%",
         outline: 'none',
         fontSize: '20px',
+        borderRadius: '5px',
+    },
+    inputErr: {
+        display: "block",
+        width: "100%",
+        outline: 'none',
+        fontSize: '15px',
+        color : 'red',
         borderRadius: '5px',
     },
     button: {
