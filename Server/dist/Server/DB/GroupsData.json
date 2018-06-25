@@ -11,5 +11,8 @@
 		}
 	  ]
 	},
-	{"Id":5,"Name":"No Friends","Members":[]}
+	{"Id":5,"Name":"No Friends","Members":[
+			{"Id":4}
+		]
+	}
 ]

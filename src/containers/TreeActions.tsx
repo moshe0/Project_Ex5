@@ -43,6 +43,7 @@ class TreeActions extends React.Component<{}, {}> {
         StateStore.FirstUse = 1;
         StateStore.getInstance().setMany({
             'Data' : await appService.GetData(),
+            'Receiver': null,
             'TreeSelected' : null
         });
         StateStore.getInstance().set('AllTree', null);
@@ -62,6 +63,7 @@ class TreeActions extends React.Component<{}, {}> {
         StateStore.FirstUse = 1;
         StateStore.getInstance().setMany({
             'Data' : await appService.GetData(),
+            'Receiver': null,
             'TreeSelected' : null
         });
         StateStore.getInstance().set('AllTree', null);
