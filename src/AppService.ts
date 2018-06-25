@@ -15,6 +15,12 @@ export class AppService {
         try {
             const ObjUser : User = await GetSpecificUser(userName, userPassword);
             console.log('GetSpecificUser SUCCESSFUL');
+
+            if(ObjUser.Id === -1){
+                let user = new User(ObjUser.Id, "1", "1", 1);
+                return user;
+            }
+            console.log(ObjUser);
             let user = new User(ObjUser.Id, ObjUser.Name, ObjUser.Password, ObjUser.Age);
             return user;
         }

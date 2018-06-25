@@ -263,8 +263,8 @@ class Add extends React.Component<IAddProps, IAddState> {
 
 const styles: { [key: string]: React.CSSProperties } = {
     modal: {
-        minWidth: '70px',
-        minHeight: '310px'
+        minWidth: '380px',
+        minHeight: '370px'
     },
     p: {
         margin: "0 0 0.5em 0",

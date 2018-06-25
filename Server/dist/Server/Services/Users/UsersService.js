@@ -75,7 +75,11 @@ function GetSpecificUser(user) {
 }
 exports.GetSpecificUser = GetSpecificUser;
 function _GetSpecificUser(user) {
-    return DB_1.DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+    let result = DB_1.DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+    if (!!result)
+        return result;
+    result = { "Id": -1 };
+    return result;
 }
 function _UserIndexOf(userArray, userName) {
     for (let i = 0; i < userArray.length; i++) {

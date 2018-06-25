@@ -6,6 +6,7 @@ import Modal from "../containers/Modal";
 interface ILogInProps{
     userLogin : string,
     passwordLogin : string,
+    MessageErr : string,
     canLogin : boolean,
     InputChangedHandler : any,
     LoginCallback : any
@@ -36,6 +37,9 @@ class LogIn extends React.Component<ILogInProps, {}> {
                     <input style={styles.input} type="password" name="passwordLogin" value={this.props.passwordLogin} onChange={this.InputChangedHandler} />
                 </p>
                 <button style={this.props.canLogin ? styles.button : styles.buttonDisabled} disabled={!this.props.canLogin} onClick={this.Login}>Login</button>
+                <p>
+                    <label style={styles.inputErr}>{this.props.MessageErr}</label>
+                </p>
             </Modal>
         );
     }
@@ -43,7 +47,8 @@ class LogIn extends React.Component<ILogInProps, {}> {
 
 const styles: { [key: string]: React.CSSProperties } = {
     modal: {
-        minWidth: '50px'
+        minWidth: '50px',
+        minHeight: '230px'
     },
     p: {
         margin: "0 0 0.5em 0",
@@ -59,6 +64,14 @@ const styles: { [key: string]: React.CSSProperties } = {
         width: "100%",
         outline: 'none',
         fontSize: '20px',
+        borderRadius: '5px',
+    },
+    inputErr: {
+        display: "block",
+        width: "100%",
+        outline: 'none',
+        fontSize: '15px',
+        color : 'red',
         borderRadius: '5px',
     },
     button: {

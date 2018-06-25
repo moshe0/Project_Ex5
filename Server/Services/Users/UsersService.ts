@@ -79,7 +79,11 @@ export function GetSpecificUser(user){
     });
 }
 function _GetSpecificUser(user){
-    return DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+    let result = DB.Users.find(item => item.Name === user.userName && item.Password === user.userPassword);
+    if(!!result)
+        return result;
+    result = {"Id" : -1};
+    return result;
 }
 
 

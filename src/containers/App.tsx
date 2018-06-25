@@ -13,7 +13,8 @@ import {InitTree} from "../Helpers/InitTree";
 
 interface IAppUserState {
     userLogin: string,
-    passwordLogin: string
+    passwordLogin: string,
+    MessageErr : string
 }
 
 class App extends React.Component<{}, IAppUserState> {
@@ -24,7 +25,8 @@ class App extends React.Component<{}, IAppUserState> {
 
         this.state = {
             userLogin: 'Moshe',
-            passwordLogin: '11'
+            passwordLogin: '11',
+            MessageErr : ''
         };
 
         StateStore.getInstance().subscribe(() => {
@@ -37,6 +39,12 @@ class App extends React.Component<{}, IAppUserState> {
 
     Login = async () => {
         const LoginUser = await appService.GetSpecificUser(this.state.userLogin, this.state.passwordLogin);
+        if(LoginUser.Id === -1){
+            this.setState({
+                MessageErr : 'User name or password incorrect!'
+            });
+            return;
+        }
         const Data = await appService.GetData();
 
         if (!!LoginUser && !!Data) {
@@ -55,9 +63,9 @@ class App extends React.Component<{}, IAppUserState> {
         const value = event.target.value;
 
         if (name === 'userLogin')
-            this.setState({userLogin: value});
+            this.setState({userLogin: value, MessageErr : ''});
         else
-            this.setState({passwordLogin: value});
+            this.setState({passwordLogin: value, MessageErr : ''});
 
     };
 
@@ -73,6 +81,7 @@ class App extends React.Component<{}, IAppUserState> {
             <LogIn
                 canLogin={canLogin}
                 passwordLogin={this.state.passwordLogin}
+                MessageErr={this.state.MessageErr}
                 userLogin={this.state.userLogin}
                 InputChangedHandler={this.InputChangedHandler}
                 LoginCallback={this.Login}
