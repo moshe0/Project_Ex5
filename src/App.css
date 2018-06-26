@@ -108,16 +108,21 @@ html, body, .bodyClass, #root {
 .OtherMessage{
   float: right;
   background: #F7F7F7;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
 }
 
 .MineMessage{
   background: palegreen;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .MessageHistory{
   margin: 5px;
   padding: 5px;
-  border-radius: 5px;
   font-size: 25px;
   width: fit-content;
 }

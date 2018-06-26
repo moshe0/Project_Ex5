@@ -14,8 +14,6 @@ export class StateStore implements IStateStore {
     static instance: IStateStore;
     static FirstUse = 1;
 
-    Users : any[];
-    Groups : any[];
     Data : any[];
     currentUser : {Name};
     Receiver : any;
@@ -26,8 +24,6 @@ export class StateStore implements IStateStore {
     TreeSelected : TreeSelectedItem;
 
     state: {} = {
-        Users : null,
-        Groups : null,
         Data : null,
         currentUser : null,
         Receiver : null,
