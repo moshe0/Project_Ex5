@@ -306,6 +306,25 @@ export class InitTree {
         return 'With one group';
     }
 
+    static GetSelectedChildrenNames(): string[] {
+        let names = [];
+        let itemFocused = $('.inFocus');
+        if(InitTree.SelectedType() === 'Not selected')
+            return names;
+
+        else if(InitTree.SelectedType() === 'User without parent' || InitTree.SelectedType() === 'User in a parent'){
+            names.push(itemFocused.text());
+            names.push(StateStore.getInstance().get('currentUser').Name);
+            return names;
+        }
+
+        let children = $(itemFocused).data('items');
+        if(!!children){
+            for(let item of children)
+                names.push(item.text());
+        }
+        return names;
+    }
 
     static GetSelectedId(): number {
         let itemFocused = $('.inFocus');

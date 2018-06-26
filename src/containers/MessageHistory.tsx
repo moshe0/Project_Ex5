@@ -2,7 +2,7 @@ import * as React from "react";
 import StateStore from "../state/StateStore";
 import {GetType} from "../Helpers/MainHelpers";
 import {appService} from "../AppService";
-// import io from 'socket.io-client';
+import {InitTree} from "../Helpers/InitTree";
 
 
 
@@ -18,14 +18,17 @@ class MessageHistory extends React.Component <{}, {Messages}>{
             Messages : [],
         };
 
+
         this.stateStore.subscribe(async()=>{
-            if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Receiver')) {
+            let index = InitTree.GetSelectedChildrenNames().find(item => item === StateStore.getInstance().get('currentUser').Name);
+
+            if(!! this.stateStore.get('currentUser') && !! this.stateStore.get('Receiver') && !!index) {
                 const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('Receiver'));
                 this.setState({
                     Messages : resMessages
                 });
             }
-            else if(!!this.stateStore.get('HoldReceiver')){
+            else if(!!this.stateStore.get('HoldReceiver')  && !!index){
                 const resMessages = await appService.GetMessages(this.stateStore.get('currentUser'), this.stateStore.get('HoldReceiver'));
                     this.setState({
                     Messages : resMessages

@@ -1,11 +1,9 @@
 import * as express from 'express';
 import * as routes from './Routes';
 import * as cors from 'cors';
-// const httpServer = require('http').Server(app);
-// const io = require('socket.io')(httpServer);
+
 
 const app = express();
-
 
 
 app.use(cors());
