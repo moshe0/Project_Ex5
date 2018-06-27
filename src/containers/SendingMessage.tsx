@@ -65,7 +65,9 @@ class SendingMessage extends React.Component <{}, ISendingMessageState> {
         return (
             <div className={'SendingMessage'}>
                 <input onKeyUp={this.EnterKeyPress} type='text' className='MessageInput' disabled={inputDisabled} onChange={this.handleInputChange} value={this.state.inputVal} placeholder={'Type Message...'}/>
-                <button onClick={this.handleButtonClick} className={btnClass} type='button' disabled={buttonDisabled}> > </button>
+                <button onClick={this.handleButtonClick} className={btnClass} type='button' disabled={buttonDisabled}>
+                    <div className="SendingImg"/>
+                </button>
             </div>
         );
     }

@@ -56,29 +56,39 @@ html, body, .bodyClass, #root {
   border-top-left-radius: 15px;
   margin: 5px 0px 5px 5px;
   padding: 5px 5px 5px 12px;
-
+  border: none;
 }
 
 .buttonActive{
+  border: none;
   margin: 5px 5px 5px 0px;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   background-color: #078278;
   font-size: 25px;
-  min-width: 100px;
+  min-width: 75px;
   color: white;
   border-color: white;
 }
 
+
 .buttonDisabled{
+    border: none;
     margin: 5px 5px 5px 0px;
     border-bottom-right-radius: 15px;
     border-top-right-radius: 15px;
     background-color: gainsboro;
     font-size: 25px;
-    min-width: 100px;
+    min-width: 75px;
     color: white;
     border-color: white;
+}
+
+.SendingImg{
+    background: url("Images/sendingMessage.png");
+    width: 24px;
+    height: 24px;
+    margin-left: 18px;
 }
 
 .buttonActive:hover {
