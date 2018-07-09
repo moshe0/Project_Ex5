@@ -346,11 +346,11 @@ export class InitTree {
         return $('ul li');
     }
 
-    static InitExsitingTree() {
+    static InitExistingTree() {
         let prevData = StateStore.getInstance().get('AllTree');
         let currentData = $('ul li');
         let indexPrev = 0, indexCurrent = 0;
-        if (prevData.length >= currentData.length) { // in case of Fletting or Delete
+        if (prevData.length >= currentData.length) { // in case of Flatting or Delete
             while (indexPrev < prevData.length && indexCurrent < currentData.length) {
                 if (prevData[indexPrev].innerText === currentData[indexCurrent].innerText &&
                     prevData[indexPrev].style.textIndent === currentData[indexCurrent].style.textIndent) {
@@ -358,13 +358,29 @@ export class InitTree {
                         indexPrev++;
                         indexCurrent++;
                 }
-                else{
-					for(let i=1 ; !($(prevData[indexPrev - i]).hasClass('inFocus')) && (indexPrev - i) >= 0 ; i++) {
-                        if (prevData[indexPrev - i].style.textIndent === currentData[indexCurrent].style.textIndent)
+                else {
+                    for (let i = 1; !($(prevData[indexPrev - i]).hasClass('inFocus')) && (indexPrev - i) >= 0; i++) {
+                        if (prevData[indexPrev - i].style.textIndent === currentData[indexCurrent].style.textIndent) {
+                            let userClass = $(currentData[indexCurrent]).hasClass('user');
                             $(currentData[indexCurrent]).attr('class', prevData[indexPrev - i].classList);
+                            if(userClass){
+                                $(currentData[indexCurrent]).removeClass('group');
+                                $(currentData[indexCurrent]).addClass('user');
+                            }
+                            break;
+                        }
                     }
                     indexCurrent++;
-				}
+                }
+                // else {
+                //     if($(currentData[indexCurrent]).hasClass('group')) {
+                //         for (let i = 1; !($(prevData[indexPrev - i]).hasClass('inFocus')) && (indexPrev - i) >= 0; i++) {
+                //             if (prevData[indexPrev - i].style.textIndent === currentData[indexCurrent].style.textIndent)
+                //                 $(currentData[indexCurrent]).attr('class', prevData[indexPrev - i].classList);
+                //         }
+                //     }
+                //     indexCurrent++;
+                // }
             }
         }
         else if (prevData.length < currentData.length) { // in case of Add
